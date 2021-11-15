@@ -25,5 +25,5 @@ jobs:
 
     - name: Build
       shell: bash
-      working-directory:  "${{ GITHUB_WORKSPACE }}/project/src/go"
+      working-directory:  "${GITHUB_WORKSPACE}/project/src/go"
       run: make all

@@ -1,11 +1,13 @@
-name: Go
+name: Build go (local)
 
 on:
   workflow_dispatch:
   push:
-    branches: [ master ]
-    paths: : [ src/go ]
-    
+    branches:
+      - master
+    paths: 
+      - "src/go/**"
+      
 jobs:
 
   build:

@@ -12,8 +12,11 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
+    
     steps:
+    
     - uses: actions/checkout@v2
+      with:  project
 
     - name: Set up Go
       uses: actions/setup-go@v2
@@ -21,4 +24,6 @@ jobs:
         go-version: 1.17
 
     - name: Build
+      shell: bash
+      working-directory:  "${{ GITHUB_WORKSPACE }}/project/src/go"
       run: make all

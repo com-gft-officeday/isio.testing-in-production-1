@@ -1,0 +1,17 @@
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: random
+  namespace: step-4
+spec:
+  selector:
+    demo/project: com.gft.deuba.unity.release-1
+    demo/app: step-4
+    demo/module: random
+    demo/version: "1.0.0"
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080

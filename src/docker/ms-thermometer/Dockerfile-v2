@@ -1,0 +1,7 @@
+FROM com.gft.deuba.unity.release-1.ms-thermometer:build
+
+ARG GITHASH
+ARG TIMESTAMP
+ARG COMPONENT
+
+ENTRYPOINT [ "/opt/ms-thermometer", "--type", "thermometer", "--version", "2.0.0" ] 

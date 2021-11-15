@@ -1,0 +1,22 @@
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: random-1
+  namespace: step-2
+  labels:
+    demo/project: com.gft.deuba.unity.release-1
+    demo/app: step-2
+    demo/module: random
+    demo/version: "1.0.0"
+spec:
+  containers:
+    - name: random
+      image: com.gft.deuba.unity.release-1.ms-random:v1
+      imagePullPolicy: Never
+      args: [ "--name", "random-1" ]
+      resources:
+        limits:
+          memory: "128Mi"
+          cpu: "500m"

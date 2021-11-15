@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: step-3
+  labels: 
+    demo/project: com.gft.deuba.unity.release-1
+    demo/app: step-3
+    config.istio.io/admission-webhooks: enabled
+    istio-injection: enabled

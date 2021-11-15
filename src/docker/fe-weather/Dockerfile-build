@@ -1,0 +1,100 @@
+FROM golang:alpine AS BUILDIMAGE
+
+ARG GITHASH
+ARG TIMESTAMP
+ARG COMPONENT
+
+RUN apk --update add  build-base gcc abuild binutils make argp-standalone linux-headers git
+RUN mkdir /tmp/build
+
+COPY go /tmp/build/src
+
+WORKDIR /tmp/build/src
+RUN make distclean
+WORKDIR /tmp/build/src/${COMPONENT}
+RUN GITHASH=${GITHASH} TIMESTAMP=${TIMESTAMP} make dep
+RUN GITHASH=${GITHASH} TIMESTAMP=${TIMESTAMP} make all
+
+WORKDIR /tmp/build
+
+# ----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
+
+FROM alpine
+
+ARG GITHASH
+ARG TIMESTAMP
+ARG COMPONENT
+
+RUN apk --update add curl bind-tools bash vim strace
+RUN mkdir /var/log/${COMPONENT}
+RUN adduser -H -D ${COMPONENT}
+COPY --from=BUILDIMAGE /tmp/build/src/dist/bin/${COMPONENT} /opt/${COMPONENT}
+COPY "docker/${COMPONENT}/entrypoint.sh" /opt/entrypoint.sh
+COPY "docker/${COMPONENT}/index.html" /workdir/
+COPY "docker/${COMPONENT}/static/" /workdir/static/
+RUN chown ${COMPONENT}:${COMPONENT} /opt/${COMPONENT} && \
+    chmod og-rwx,u=rx /opt/${COMPONENT}
+RUN chmod -v u+x "/opt/${COMPONENT}" /opt/entrypoint.sh
+RUN sed -i "s/<NAME>/${COMPONENT}/g" /opt/entrypoint.sh
+
+USER ${COMPONENT}
+ENTRYPOINT [ "/opt/fe-weather", "--staticdir", "/workdir/static", "--templatefile", "/workdir/index.html" ]
+
+# ----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
+# 
+# FROM alpine
+# 
+# RUN apk add --update --no-cache curl bash
+# 
+# ARG DOMAIN
+# ARG CUSTOMER
+# ARG PROJECT
+# ARG COMPONENT
+# ARG MODULE
+# ARG NAME
+# ARG VERSION
+# ARG RELEASE_TYPE
+# ARG RELEASE_COMMIT
+# ARG RELEASE_STAMP
+# 
+# COPY --from=buildimage "/go/bin/${COMPONENT}" "/${COMPONENT}"
+# COPY "docker/${COMPONENT}/entrypoint.sh" /
+# COPY "docker/${COMPONENT}/index.html" /workdir/
+# COPY "docker/${COMPONENT}/static/" /workdir/static/
+# RUN chmod -v u+x "/${COMPONENT}" /entrypoint.sh
+# RUN sed -i "s/<NAME>/${COMPONENT}/g" /entrypoint.sh
+# WORKDIR /workdir
+# ENTRYPOINT [ "/entrypoint.sh" ]
+# 
+# ENV APP_DOMAIN="${DOMAIN}" \
+#     APP_CUSTOMER="${CUSTOMER}" \
+#     APP_PROJECT="${PROJECT}" \
+#     APP_COMPONENT="${COMPONENT}" \
+#     APP_MODULE="${MODULE}" \
+#     APP_NAME="${COMPONENT}" \
+#     APP_VERSION="${VERSION}" \
+#     APP_RELEASE_TYPE="${RELEASE_TYPE}" \
+#     APP_RELEASE_COMMIT="${RELEASE_COMMIT}" \
+#     APP_RELEASE_STAMP="${RELEASE_STAMP}"
+# 
+# LABEL app.kubernetes.io/part-of=${PROJECT} \
+#       app.kubernetes.io/component=${COMPONENT}.${MODULE} \
+#       app.kubernetes.io/name=${COMPONENT} \
+#       app.kubernetes.io/version=${VERSION} \
+#       project=${PROJECT} \
+#       ${PROJECT}/domain=${DOMAIN} \
+#       ${PROJECT}/customer=${CUSTOMER} \
+#       ${PROJECT}/project=${PROJECT} \
+#       ${PROJECT}/component=${COMPONENT} \
+#       ${PROJECT}/module=${MODULE} \
+#       ${PROJECT}/name=${COMPONENT} \
+#       ${PROJECT}/version=${VERSION} \
+#       ${PROJECT}/release/type=${RELEASE_TYPE} \
+#       ${PROJECT}/release/commit=${RELEASE_COMMIT} \
+#       ${PROJECT}/release/stamp=${RELEASE_STAMP}
+# 
+# EXPOSE 8080

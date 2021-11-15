@@ -1,0 +1,21 @@
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: frontend
+  namespace: step-1
+  labels:
+    demo/project: com.gft.deuba.unity.release-1
+    demo/app: step-1
+    demo/module: frontend
+spec:
+  containers:
+    - name: frontend
+      image: com.gft.deuba.unity.release-1.fe-weather:v1
+      args: [ "--name", "frontend-1", "--device", "http://thermometer/measure" ]
+      imagePullPolicy: Never
+      resources:
+        limits:
+          memory: "128Mi"
+          cpu: "500m"

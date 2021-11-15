@@ -1,0 +1,12 @@
+*.o
+*.d
+*.a
+*.iid
+*.swp
+*.tmp
+**/bin
+**/lib
+**/obj
+**/dist
+.vscode
+**/old

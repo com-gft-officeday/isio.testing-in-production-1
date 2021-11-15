@@ -1,0 +1,37 @@
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: thermometer
+  namespace: step-2
+  labels:
+    demo/project: com.gft.deuba.unity.release-1
+    demo/app: step-2
+    demo/module: thermometer
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      demo/project: com.gft.deuba.unity.release-1
+      demo/app: step-2
+      demo/module: thermometer
+  template:
+    metadata:
+      name: thermometer
+      labels:
+        demo/project: com.gft.deuba.unity.release-1
+        demo/app: step-2
+        demo/module: thermometer
+        demo/version: 1.0.0
+    spec:
+      containers:
+        - name: thermometer
+          image: com.gft.deuba.unity.release-1.ms-thermometer:v1
+          imagePullPolicy: Never
+          args: [ "--type", "thermometer", "--address", "01:00", "--name", "thermometer-1", "--randomsvc", "http://random/random" ]
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+

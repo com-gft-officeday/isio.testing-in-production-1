@@ -1,0 +1,35 @@
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: step-4
+  labels:
+    demo/project: com.gft.deuba.unity.release-1
+    demo/app: step-4
+    demo/module: frontend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      demo/project: com.gft.deuba.unity.release-1
+      demo/app: step-4
+      demo/module: frontend
+  template:
+    metadata:
+      name: frontend
+      labels:
+        demo/project: com.gft.deuba.unity.release-1
+        demo/app: step-4
+        demo/module: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: com.gft.deuba.unity.release-1.fe-weather:v1
+          args: [ "--name", "frontend-1", "--device", "http://thermometer/measure" ]
+          imagePullPolicy: Never
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "250m"

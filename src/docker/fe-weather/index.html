@@ -1,0 +1,81 @@
+{{- $environment := "" }}{{ if ne ( len ( index .RequestHeader "X-Environment" ) ) 0 }}{{ $environment = index .RequestHeader "X-Environment" 0 }}{{ end -}}
+{{ $environment = .RequestEnvironment }}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <base href="{{ .BaseURL }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ $environment }} weatherstation</title>
+    <link rel="stylesheet" type="text/css" href="static/style.css">
+</head>
+
+<body>
+    <table><tr><td>
+    <div class="frontend">
+        <div class="environment" data-environment="{{ $environment }}"></div>
+        <table class="frontend" >
+            <tbody>
+                <tr>
+                        <td class="fename"><span class="fename">{{ .Frontend.GetName }}</span><br><span class="fehost">{{ .Frontend.GetHostname }}</span></td>
+                    <td class="feversion" rowspan=1><span class="feversion version" data-version="{{ .Frontend.GetVersion }}">{{ .Frontend.GetVersion }}</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    </tr><tr><td>
+    <div class="devicelist">
+        {{ range .Reply }}
+        {{- $deviceenvironment := "" }}{{ if ne ( len ( index .Header "X-Environment" ) ) 0 }}{{ $deviceenvironment = index .Header "X-Environment" 0 }}{{ end -}}
+        <div class="device">
+            <div class="environment" data-environment="{{ $deviceenvironment }}"></div>
+            <table class="device" >
+                <tbody>
+                    <tr>
+                        <td class="name"><span class="name">{{ .Data.name }}</span><br><span class="host">{{ .Data.hostname}}</span></td>
+                        <td class="version"><span class="version" data-version="{{ .Data.version }}">{{ .Data.version }}</span></td>
+                    </tr>
+                    <tr>
+                        <td class="value"><span class="value">{{ .Data.formatted }}</span></td>
+                        <td class="time"><span class="time">{{ slice .Data.stamp 11 19 }}</span></td>
+                    </tr>
+                    {{ if ne  .Data.rnrSvcName "internal"}}
+
+                    <tr>
+                        <td class="rnrname"><span class="rnrname">{{ .Data.rnrSvcName }}</span></td>
+                        <td class="rnrversion"><span class="rnrversion" data-version="{{ .Data.rnrSvcVersion }}">v{{ .Data.rnrSvcVersion }}</span></td>
+                    </tr>
+
+                    {{ end -}}
+                </tbody>
+            </table>
+        </div>
+        {{ end }}
+    </div>
+    </td></tr></table>
+<!--
+    Displaying {{.Count}} devices on {{ .Frontend.GetName }}
+    BaseURL        {{ .BaseURL }}
+    Referer        {{ .Referer }}
+    RequestURL     {{ .RequestURL }}
+    RequestURI     {{ .RequestURI }}
+    RequestSource  {{ .RequestSource }}
+    RequestTarget  {{ .RequestTarget }}
+    {{- range $key, $values := .RequestHeader -}}
+        {{- range $value := $values }}
+    {{ $key }}     {{ $value }}
+        {{- end -}}
+    {{- end -}}
+
+    {{- range .Reply -}}
+        {{- range $key, $values := .Header -}}
+            {{- range $value := $values }}
+    {{ $key }}     {{ $value }}
+            {{- end -}}
+        {{- end -}}
+    {{- end -}}
+-->
+</body>
+
+</html>

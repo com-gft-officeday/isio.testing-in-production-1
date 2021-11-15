@@ -1,0 +1,20 @@
+---
+
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: thermometer-destination
+  namespace: step-4
+spec:
+
+  host: thermometer
+  
+  subsets:
+
+  - name: prod
+    labels:
+      demo/version: "1.0.0"
+
+  - name: pre-prod
+    labels:
+      demo/version: "2.0.0"

@@ -1,0 +1,100 @@
+##############################################################################
+##############################################################################
+##############################################################################
+---
+
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: app-ingress-gateway
+  namespace: step-4
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 30080
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"
+
+##############################################################################
+##############################################################################
+##############################################################################
+---
+
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: frontend-route
+  namespace: step-4
+spec:
+
+  hosts:
+    - "*"
+
+  gateways:
+    - app-ingress-gateway
+
+  http:
+    - name: static
+      match:
+      - uri:
+          prefix: /static/
+      - uri:
+          exact: /static
+      route:
+        - destination:
+            port:
+              number: 80
+            host: frontend
+
+    - name: prod
+      match:
+      - uri:
+          prefix: /prod/
+      - uri:
+          exact: /prod
+      rewrite:
+        uri: /
+      headers:
+        request:
+          set:
+            x-environment: prod
+      route:
+        - destination:
+            port:
+              number: 80
+            host: frontend
+
+    - name: pre-prod
+      match:
+      - uri:
+          prefix: /pre-prod/
+      - uri:
+          exact: /pre-prod
+      rewrite:
+        uri: /
+      route:
+        - destination:
+            port:
+              number: 80
+            host: frontend
+          headers:
+            request:
+              set:
+                x-environment: pre-prod
+
+    - name: fallthrough
+      match:
+      - uri:
+          regex: '.*'
+      rewrite:
+        uri: /static/error-404.html
+      route:
+        - destination:
+            port:
+              number: 80
+            host: frontend
+

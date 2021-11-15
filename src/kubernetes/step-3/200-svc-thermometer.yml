@@ -1,0 +1,16 @@
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: thermometer
+  namespace: step-3
+spec:
+  selector:
+    demo/project: com.gft.deuba.unity.release-1
+    demo/app: step-3
+    demo/module: thermometer
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080

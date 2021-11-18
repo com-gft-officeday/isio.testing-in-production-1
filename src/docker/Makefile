@@ -7,15 +7,16 @@ TIMESTAMP ?= $(shell date +%Y%m%d%H%M%S)
 GITHASH ?= $(shell (  git rev-parse HEAD  ) )
 _GITHASH := $(shell ( echo "$(GITHASH)" | sed 's/^ *//; s/  *$$//; s/  */\\|/g') )
 
-COMPONENTS := ms-measure ms-random fe-measure
+GO_COMPONENTS :=  ms-measure ms-random fe-measure
+ANGULAR_COMPONENTS := fe-weatherstation
 
 all: docker
 
-.PHONY: docker docker-clean clean docker-distclean distclean $(COMPONENTS) docker-ls ls docker-test test 
+.PHONY: docker docker-clean clean docker-distclean distclean $(GO_COMPONENTS) $(ANGULAR_COMPONENTS) docker-ls ls docker-test test 
 
 docker:
 	@pwd
-	@for dir in $(COMPONENTS) ; do \
+	@for dir in $(GO_COMPONENTS) ; do \
 	    TIMESTAMP="$(TIMESTAMP)" \
 	    GITHASH="$(GITHASH)" \
 	    CUSTOMER="$(CUSTOMER)" \
@@ -27,9 +28,16 @@ docker:
 	    PROJECT="$(PROJECT)" \
 		make -C  $$dir all ; \
 	done
+	@for dir in $(ANGULAR_COMPONENTS) ; do \
+	    TIMESTAMP="$(TIMESTAMP)" \
+	    GITHASH="$(GITHASH)" \
+	    CUSTOMER="$(CUSTOMER)" \
+	    PROJECT="$(PROJECT)" \
+		make -C  $$dir all ; \
+	done
 
 docker-clean clean:
-	@for dir in $(COMPONENTS) ; do \
+	@for dir in $(GO_COMPONENTS) ; do \
 	    TIMESTAMP="$(TIMESTAMP)" \
 	    GITHASH="$(GITHASH)" \
 	    CUSTOMER="$(CUSTOMER)" \
@@ -41,9 +49,16 @@ docker-clean clean:
 	    PROJECT="$(PROJECT)" \
 		make -C  $$dir clean ; \
 	done
+	@for dir in $(ANGULAR_COMPONENTS) ; do \
+	    TIMESTAMP="$(TIMESTAMP)" \
+	    GITHASH="$(GITHASH)" \
+	    CUSTOMER="$(CUSTOMER)" \
+	    PROJECT="$(PROJECT)" \
+		make -C  $$dir clean ; \
+	done
 
 docker-distclean distclean:
-	@for dir in $(COMPONENTS) ; do \
+	@for dir in $(GO_COMPONENTS) ; do \
 	    TIMESTAMP="$(TIMESTAMP)" \
 	    GITHASH="$(GITHASH)" \
 	    CUSTOMER="$(CUSTOMER)" \
@@ -55,6 +70,13 @@ docker-distclean distclean:
 	    PROJECT="$(PROJECT)" \
 		make -C $$dir distclean ; \
 	done
+	@for dir in $(ANGULAR_COMPONENTS) ; do \
+	    TIMESTAMP="$(TIMESTAMP)" \
+	    GITHASH="$(GITHASH)" \
+	    CUSTOMER="$(CUSTOMER)" \
+	    PROJECT="$(PROJECT)" \
+		make -C  $$dir distclean; \
+	done
 	@for image in $$( docker image ls --filter "label=PROJECT=$(PROJECT)" --format "{{.ID}}" ) ; do \
 		for container in $$(docker container ls --filter "ancestor=$$image" --format "{{.ID}}" ) ; do \
 			docker container stop --time 5 "$$container" ; \
@@ -63,7 +85,14 @@ docker-distclean distclean:
 	done
 
 docker-ls ls:
-	@for dir in $(COMPONENTS) ; do \
+	@for dir in $(GO_COMPONENTS) ; do \
+	    TIMESTAMP="$(TIMESTAMP)" \
+	    GITHASH="$(GITHASH)" \
+	    CUSTOMER="$(CUSTOMER)" \
+	    PROJECT="$(PROJECT)" \
+		make -C  $$dir ls ; \
+	done
+	@for dir in $(ANGULAR_COMPONENTS) ; do \
 	    TIMESTAMP="$(TIMESTAMP)" \
 	    GITHASH="$(GITHASH)" \
 	    CUSTOMER="$(CUSTOMER)" \
@@ -73,7 +102,7 @@ docker-ls ls:
 
 docker-test test:
 	@echo "GITHASH: $(GITHASH)"
-	@for dir in $(BINS_SUBDIRS) $(LIBS_SUBDIRS) ; do \
+	@for dir in $(COMPONENTS) ; do \
 	    TIMESTAMP="$(TIMESTAMP)" \
 	    GITHASH="$(GITHASH)" \
 	    CUSTOMER="$(CUSTOMER)" \
@@ -84,4 +113,11 @@ docker-test test:
 	    CUSTOMER="$(CUSTOMER)" \
 	    PROJECT="$(PROJECT)" \
 		make -C $$dir test; \
+	done
+	@for dir in $(ANGULAR_COMPONENTS) ; do \
+	    TIMESTAMP="$(TIMESTAMP)" \
+	    GITHASH="$(GITHASH)" \
+	    CUSTOMER="$(CUSTOMER)" \
+	    PROJECT="$(PROJECT)" \
+		make -C  $$dir ; \
 	done

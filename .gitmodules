@@ -7,3 +7,6 @@
 [submodule "src/go/fe-measure"]
 	path = src/go/fe-measure
 	url = ../../com-gft-tsbo-source/go-fe-measure
+[submodule "src/angular/fe-weatherstation"]
+	path = src/angular/fe-weatherstation
+	url = ../../com-gft-tsbo-source/angular-fe-weatherstation

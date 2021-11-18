@@ -1,0 +1,56 @@
+version: "3.9"
+
+networks:
+  com.gft.deuba.unity.release-1:
+
+services:
+
+  fe-weatherstation:
+    image: com.gft.deuba.unity.release-1.frontend.fe-weatherstation:with-content
+    links:
+      - network-v1
+    ports:
+      - "30080:8080"
+    networks:
+      - com.gft.deuba.unity.release-1
+    deploy:
+      replicas: 1
+      labels:
+        - COMPONENT=fe-weatherstation
+        - MODULE=frontend
+        - PROJECT=com.gft.deuba.unity.release-1
+        - CUSTOMER=com.gft.deuba
+
+  thermometer:
+    image: com.gft.deuba.unity.release-1.application.ms-measure:v1
+    command: [ "--name", "thermometer", "--type", "thermometer", "--address", "01:00", "--randomsvc", "http://random:8080/random" ]
+    links:
+      - thermometer-v1
+    ports:
+      - "30081:8080"
+    networks:
+      - com.gft.deuba.unity.release-1
+    deploy:
+      replicas: 1
+      labels:
+        - COMPONENT=ms-measure
+        - MODULE=application
+        - PROJECT=com.gft.deuba.unity.release-1
+        - CUSTOMER=com.gft.deuba
+
+  random:
+    image: com.gft.deuba.unity.release-1.backend.ms-random:v1
+    command: [ "--name", "random" ]
+    links:
+      - random-v1
+    ports:
+      - "30082:8080"
+    networks:
+      - com.gft.deuba.unity.release-1
+    deploy:
+      replicas: 1
+      labels:
+        - COMPONENT=ms-random
+        - MODULE=backend
+        - PROJECT=com.gft.deuba.unity.release-1
+        - CUSTOMER=com.gft.deuba

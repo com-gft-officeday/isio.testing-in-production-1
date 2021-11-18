@@ -8,7 +8,7 @@ services:
   fe-weatherstation:
     image: com.gft.deuba.unity.release-1.frontend.fe-weatherstation:with-content
     links:
-      - network-v1
+      - frontend-v1
     ports:
       - "30080:8080"
     networks:
@@ -17,6 +17,23 @@ services:
       replicas: 1
       labels:
         - COMPONENT=fe-weatherstation
+        - MODULE=frontend
+        - PROJECT=com.gft.deuba.unity.release-1
+        - CUSTOMER=com.gft.deuba
+
+  fe-measure:
+    image: com.gft.deuba.unity.release-1.frontend.fe-measure:v1
+    command: [ "--device", "http://thermometer:8080/measure", "--name", "fe-measure" ]
+    links:
+      - frontend_old-v1
+    ports:
+      - "30083:8080"
+    networks:
+      - com.gft.deuba.unity.release-1
+    deploy:
+      replicas: 1
+      labels:
+        - COMPONENT=fe-measure
         - MODULE=frontend
         - PROJECT=com.gft.deuba.unity.release-1
         - CUSTOMER=com.gft.deuba

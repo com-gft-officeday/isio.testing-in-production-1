@@ -21,13 +21,15 @@ DOCKER_DIR   ?= $(BUILD_DIR)/docker
 DOCKER_VARIANT ?= alpine
 DOCKER_IMAGES:= with-content v1 v2 v3
 
+SRCS := $(shell (find ../../angular/$(COMPONENT)  -type f -not -path '*/node_modules/*' ) )
 all: docker
 
 .PHONY: docker-clean clean docker-distclean distclean docker docker-ls ls docker-test test
 
 docker: $(DOCKER_DIR)/$(TARGET)-with-content.iid \
 
-$(DOCKER_DIR)/$(TARGET)-with-content.iid: Dockerfile-with-content 
+$(DOCKER_DIR)/$(TARGET)-with-content.iid: Dockerfile-with-content \
+	$(SRCS) 
 	@echo "### DOCK/DOCK  $(PROJECT).$(MODULE).$(COMPONENT) - $(DOCKER_VARIANT) - with-content"
 	@$(MKDIR) "$(DOCKER_DIR)"
 	@if [ -f "$(DOCKER_DIR)/$(TARGET)-with-content.iid" ] ; then i=$$( cat "$(DOCKER_DIR)/$(TARGET)-with-content.iid" ); docker image rm -f $$i ; rm -f "$(DOCKER_DIR)/$(TARGET)-with-content.iid"  2>/dev/null ; fi

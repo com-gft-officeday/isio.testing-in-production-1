@@ -2,8 +2,8 @@ SHELL := /bin/bash
 
 CUSTOMER ?= com.gft.deuba
 PROJECT ?= com.gft.deuba.unity.release-1
-MODULE ?= backend
-COMPONENT ?= ms-random
+MODULE ?= application
+COMPONENT ?= ms-measure
 TARGET ?= $(PROJECT).$(MODULE).$(COMPONENT)
 
 TIMESTAMP ?= $(shell date +%Y%m%d%H%M%S)

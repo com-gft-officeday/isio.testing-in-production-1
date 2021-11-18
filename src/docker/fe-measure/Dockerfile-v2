@@ -1,0 +1,10 @@
+FROM com.gft.deuba.unity.release-1.frontend.fe-measure:with-content
+
+ARG GITHASH
+ARG TIMESTAMP
+ARG COMPONENT
+ARG MODULE
+ARG CUSTOMER
+ARG PROJECT
+
+ENTRYPOINT [ "/opt/com.gft.deuba.unity.release-1.frontend.fe-measure", "--staticdir", "/workdir/static", "--templatefile", "/workdir/index.html", "--version", "2.0.0" ]

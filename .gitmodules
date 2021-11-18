@@ -1,0 +1,9 @@
+[submodule "src/go/ms-random"]
+	path = src/go/ms-random
+	url = ../../com-gft-tsbo-source/go-ms-random
+[submodule "src/go/ms-measure"]
+	path = src/go/ms-measure
+	url = ../../com-gft-tsbo-source/go-ms-measure
+[submodule "src/go/fe-measure"]
+	path = src/go/fe-measure
+	url = ../../com-gft-tsbo-source/go-fe-measure

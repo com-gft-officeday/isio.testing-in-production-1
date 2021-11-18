@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
         - name: thermometer
-          image: com.gft.deuba.unity.release-1.ms-thermometer:v1
+          image: com.gft.deuba.unity.release-1.application.ms-measure:v1
           imagePullPolicy: Never
           args: [ "--type", "thermometer", "--address", "01:00", "--name", "thermometer-1", "--randomsvc", "http://random/random" ]
           resources:

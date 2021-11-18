@@ -26,7 +26,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: com.gft.deuba.unity.release-1.fe-weather:v1
+          image: com.gft.deuba.unity.release-1.frontend.fe-measure:v1
           args: [ "--name", "frontend-1", "--device", "http://thermometer/measure" ]
           imagePullPolicy: Never
           resources:

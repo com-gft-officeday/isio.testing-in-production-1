@@ -1,0 +1,36 @@
+FROM com.gft.deuba.unity.release-1.frontend.fe-measure:base
+
+ARG GITHASH
+ARG TIMESTAMP
+ARG COMPONENT
+ARG MODULE
+ARG CUSTOMER
+ARG PROJECT
+
+ENV GITHASH=$GITHASH
+ENV TIMESTAMP=$TIMESTAMP
+ENV COMPONENT=$COMPONENT
+ENV MODULE=$MODULE
+ENV CUSTOMER=$CUSTOMER
+ENV PROJECT=$PROJECT
+
+USER root
+RUN apk --update add curl bind-tools bash vim strace ltrace
+RUN mkdir -p /var/log/${COMPONENT} /workdir
+COPY "index.html" /workdir/
+COPY "static/" /workdir/static/
+RUN chown ${COMPONENT}:${COMPONENT} /opt/${COMPONENT} && \
+    chmod og-rwx,u=rx /opt/${COMPONENT}
+RUN chmod -v u+x "/opt/${COMPONENT}" 
+
+LABEL GITHASH=${GITHASH}
+LABEL TIMESTAMP=${TIMESTAMP}
+LABEL COMPONENT=${COMPONENT}
+LABEL MODULE=${MODULE}
+LABEL CUSTOMER=${CUSTOMER}
+LABEL PROJECT=${PROJECT}
+
+USER ${COMPONENT}
+WORKDIR /opt
+ENTRYPOINT [ "/opt/component", "--staticdir", "/workdir/static", "--templatefile", "/workdir/index.html" ]
+

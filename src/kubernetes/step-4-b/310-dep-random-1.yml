@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
         - name: random
-          image: com.gft.deuba.unity.release-1.ms-random:v1
+          image: com.gft.deuba.unity.release-1.backend.ms-random:v1
           imagePullPolicy: Never
           args: [ "--name", "random-1" ]
           resources:

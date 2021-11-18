@@ -1,4 +1,4 @@
-FROM com.gft.deuba.unity.release-1.backend.ms-random:with-content
+FROM com.gft.deuba.unity.release-1.frontend.fe-measure:with-content
 
 ARG GITHASH
 ARG TIMESTAMP
@@ -21,4 +21,4 @@ LABEL MODULE=${MODULE}
 LABEL CUSTOMER=${CUSTOMER}
 LABEL PROJECT=${PROJECT}
 
-ENTRYPOINT [ "/opt/component", "--version", "2.0.0" ]
+ENTRYPOINT [ "/opt/component", "--staticdir", "/workdir/static", "--templatefile", "/workdir/index.html", "--version", "1.0.0" ]

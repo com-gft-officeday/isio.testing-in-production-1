@@ -1,4 +1,4 @@
-FROM com.gft.deuba.unity.release-1.backend.ms-random:with-content
+FROM com.gft.deuba.unity.release-1.backend.ms-random:base
 
 ARG GITHASH
 ARG TIMESTAMP
@@ -14,6 +14,12 @@ ENV MODULE=$MODULE
 ENV CUSTOMER=$CUSTOMER
 ENV PROJECT=$PROJECT
 
+USER root
+RUN apk --update add curl bind-tools bash vim strace ltrace
+RUN mkdir -p /workdir
+RUN chown -R ${COMPONENT}:${COMPONENT} /workdir && \
+    chmod -R o-rwX,g-wX,u=rwX /workdir
+
 LABEL GITHASH=${GITHASH}
 LABEL TIMESTAMP=${TIMESTAMP}
 LABEL COMPONENT=${COMPONENT}
@@ -21,4 +27,7 @@ LABEL MODULE=${MODULE}
 LABEL CUSTOMER=${CUSTOMER}
 LABEL PROJECT=${PROJECT}
 
-ENTRYPOINT [ "/opt/component", "--version", "2.0.0" ]
+USER ${COMPONENT}
+WORKDIR /opt
+ENTRYPOINT [ "/opt/component" ]
+

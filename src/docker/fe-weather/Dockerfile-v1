@@ -1,7 +1,0 @@
-FROM com.gft.deuba.unity.release-1.fe-weather:build
-
-ARG GITHASH
-ARG TIMESTAMP
-ARG COMPONENT
-
-ENTRYPOINT [ "/opt/fe-weather", "--staticdir", "/workdir/static", "--templatefile", "/workdir/index.html", "--version", "1.0.0" ]

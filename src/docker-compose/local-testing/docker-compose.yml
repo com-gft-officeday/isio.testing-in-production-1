@@ -20,6 +20,7 @@ services:
         - MODULE=frontend
         - PROJECT=com.gft.deuba.unity.release-1
         - CUSTOMER=com.gft.deuba
+        - VERSION=1.0.0
 
   fe-measure:
     image: com.gft.deuba.unity.release-1.frontend.fe-measure:v1
@@ -37,12 +38,11 @@ services:
         - MODULE=frontend
         - PROJECT=com.gft.deuba.unity.release-1
         - CUSTOMER=com.gft.deuba
+        - VERSION=1.0.0
 
-  thermometer:
+  thermometer-v1:
     image: com.gft.deuba.unity.release-1.application.ms-measure:v1
-    command: [ "--name", "thermometer", "--type", "thermometer", "--address", "01:00", "--randomsvc", "http://random:8080/random" ]
-    links:
-      - thermometer-v1
+    command: [ "--name", "thermometer", "--type", "thermometer", "--address", "01:00", "--randomsvc", "http://random-v1:8080/random" ]
     ports:
       - "30081:8080"
     networks:
@@ -54,12 +54,27 @@ services:
         - MODULE=application
         - PROJECT=com.gft.deuba.unity.release-1
         - CUSTOMER=com.gft.deuba
+        - VERSION=1.0.0
 
-  random:
+  thermometer-v2:
+    image: com.gft.deuba.unity.release-1.application.ms-measure:v2
+    command: [ "--name", "thermometer", "--type", "thermometer", "--address", "02:00", "--randomsvc", "http://random-v2:8080/random" ]
+    ports:
+      - "30084:8080"
+    networks:
+      - com.gft.deuba.unity.release-1
+    deploy:
+      replicas: 1
+      labels:
+        - COMPONENT=ms-measure
+        - MODULE=application
+        - PROJECT=com.gft.deuba.unity.release-1
+        - CUSTOMER=com.gft.deuba
+        - VERSION=2.0.0
+
+  random-v1:
     image: com.gft.deuba.unity.release-1.backend.ms-random:v1
     command: [ "--name", "random" ]
-    links:
-      - random-v1
     ports:
       - "30082:8080"
     networks:
@@ -71,3 +86,20 @@ services:
         - MODULE=backend
         - PROJECT=com.gft.deuba.unity.release-1
         - CUSTOMER=com.gft.deuba
+        - VERSION=1.0.0
+
+  random-v2:
+    image: com.gft.deuba.unity.release-1.backend.ms-random:v2
+    command: [ "--name", "random" ]
+    ports:
+      - "30085:8080"
+    networks:
+      - com.gft.deuba.unity.release-1
+    deploy:
+      replicas: 1
+      labels:
+        - COMPONENT=ms-random
+        - MODULE=backend
+        - PROJECT=com.gft.deuba.unity.release-1
+        - CUSTOMER=com.gft.deuba
+        - VERSION=2.0.0

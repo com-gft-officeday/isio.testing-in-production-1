@@ -67,11 +67,11 @@ docker:
 
 clean:
 	@echo "### KUB /CLEAN $(PROJECT).$(MODULE).$(COMPONENT) - $(DOCKER_VARIANT)"
-	@if [[ -f "manifests/kubernetes-dashboard-user.yaml" ]] ; then kubectl delete -f manifests/kubernetes-dashboard-user.yaml; fi
-	@if [[ -f "manifests/downloaded/kubernetes-dashboard.yaml" ]] ; then kubectl delete -f manifests/downloaded/kubernetes-dashboard.yaml; fi
-	@if [[ -f "manifests/downloaded/kiali.yaml" ]] ; then kubectl delete -f manifests/downloaded/kiali.yaml; fi
-	@if [[ -f "manifests/downloaded/prometheus.yaml" ]] ; then kubectl delete -f manifests/downloaded/prometheus.yaml; fi
-	@if [[ -f "manifests/downloaded/jaeger.yaml" ]] ; then kubectl delete -f manifests/downloaded/jaeger.yaml; fi
+	@if [[ -f "manifests/kubernetes-dashboard-user.yaml" ]] ; then kubectl delete -f manifests/kubernetes-dashboard-user.yaml 2>/dev/null || exit 0; fi
+	@if [[ -f "manifests/downloaded/kubernetes-dashboard.yaml" ]] ; then kubectl delete -f manifests/downloaded/kubernetes-dashboard.yaml 2>/dev/null || exit 0; fi
+	@if [[ -f "manifests/downloaded/kiali.yaml" ]] ; then kubectl delete -f manifests/downloaded/kiali.yaml 2>/dev/null || exit 0; fi
+	@if [[ -f "manifests/downloaded/prometheus.yaml" ]] ; then kubectl delete -f manifests/downloaded/prometheus.yaml 2>/dev/null || exit 0; fi
+	@if [[ -f "manifests/downloaded/jaeger.yaml" ]] ; then kubectl delete -f manifests/downloaded/jaeger.yaml 2>/dev/null || exit 0; fi
 	@$(RM) -rf $(BUILD_DIR)
 	@$(MKDIR) $(BUILD_DIR)
 	@$(MKDIR) manifests/downloaded

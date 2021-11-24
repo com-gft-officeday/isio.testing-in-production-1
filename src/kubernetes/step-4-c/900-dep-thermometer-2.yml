@@ -7,7 +7,7 @@ metadata:
   namespace: com-gft-deuba-unity-release-1
   labels:
     PROJECT: com.gft.deuba.unity.release-1
-    app.kubernetes.io/part-of: step-4
+    app.kubernetes.io/part-of: com.gft.deuba.unity.release-1.step-4
     app.kubernetes.io/component: thermometer
     app.kubernetes.io/version: "2.0.0"
 spec:
@@ -15,14 +15,14 @@ spec:
   selector:
     matchLabels:
       PROJECT: com.gft.deuba.unity.release-1
-      app.kubernetes.io/part-of: step-4
+      app.kubernetes.io/part-of: com.gft.deuba.unity.release-1.step-4
       app.kubernetes.io/component: thermometer
   template:
     metadata:
       name: thermometer
       labels:
         PROJECT: com.gft.deuba.unity.release-1
-        app.kubernetes.io/part-of: step-4
+        app.kubernetes.io/part-of: com.gft.deuba.unity.release-1.step-4
         app.kubernetes.io/component: thermometer
         app.kubernetes.io/version: 2.0.0
     spec:

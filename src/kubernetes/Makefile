@@ -40,7 +40,7 @@ ls:
 	  kubectl get -n $(KUBERNETES_NAMESPACE) "$$o" 2>/dev/null | sed -e '1i\'$$'\n'"    $$o" -e 's/^/        /' ; \
 	done
 
-clean:
+clean: clean-ns
 	@for dir in $(SUBDIRS) ; do \
 	    TIMESTAMP="$(TIMESTAMP)" \
 	    GITHASH="$(GITHASH)" \
@@ -49,11 +49,10 @@ clean:
 		make -C  $$dir clean ; \
 	done
 
-clean-ns: clean
+clean-ns:
 	@echo "### KUB / NSCLN $(KUBERNETES_NAMESPACE)"
-	@kubectl delete namespace "$(KUBERNETES_NAMESPACE)" 2>/dev/null
+	@kubectl delete namespace "$(KUBERNETES_NAMESPACE)" 2>/dev/null || exit 0
 	@kubectl delete -f ../common/  2>/dev/null || exit 0
-	@kubectl apply -f ../common/ || exit 0
 
 distclean:
 	@for dir in $(SUBDIRS) ; do \

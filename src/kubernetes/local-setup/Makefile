@@ -5,6 +5,7 @@ PROJECT ?= com.gft.tsbo.source
 MODULE ?= infrastructure
 COMPONENT ?= dashboard
 TARGET ?= $(PROJECT).$(MODULE).$(COMPONENT)
+KUBERNETES_NAMESPACE :=$(shell echo "$PROJECT" | sed 's/[^a-zA-Z0-9_-]/-/g' )
 
 TIMESTAMP ?= $(shell date +%Y%m%d%H%M%S)
 GITHASH ?= $(shell (  git rev-parse HEAD  ) )

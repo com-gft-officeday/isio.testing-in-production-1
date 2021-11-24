@@ -4,7 +4,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: thermometer-1
-  namespace: step-1
+  namespace: com-gft-deuba-unity-release-1
   labels:
     demo/project: com.gft.deuba.unity.release-1
     demo/app: step-1

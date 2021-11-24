@@ -4,7 +4,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: thermometer-route
-  namespace: step-4
+  namespace: com-gft-deuba-unity-release-1
 
 spec:
 

@@ -13,8 +13,8 @@ spec:
 
   - name: prod
     labels:
-      demo/version: "2.0.0"
+      app.kubernetes.io/version: "2.0.0"
 
   - name: pre-prod
     labels:
-      demo/version: "2.0.0"
+      app.kubernetes.io/version: "2.0.0"

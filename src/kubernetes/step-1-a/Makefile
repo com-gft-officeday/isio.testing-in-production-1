@@ -29,6 +29,12 @@ docker:
 
 kubernetes: 
 
+ls:
+	@echo "### KUB / LS    $(KUBERNETES_NAMESPACE)"
+	@for o in $$( kubectl api-resources --namespaced=true --verbs=delete -o name | sort ) ; do \
+	  kubectl get -n $(KUBERNETES_NAMESPACE) "$$o" 2>/dev/null | sed -e '1i\'$$'\n'"    $$o" -e 's/^/        /' ; \
+	done
+
 clean:
 	@echo "### KUB / CLEAN $(KUBERNETES_NAMESPACE)"
 	@CMD="" ; \
@@ -37,9 +43,21 @@ clean:
 	done < <( find . -type f -not -name "*-namespace*" \( -name "*.yml" -o -name "*.yaml" \) ) ; \
 	kubectl delete $$CMD 2>/dev/null || exit 0
 
-distclean: clean
+clean-ns: clean
+	@echo "### KUB / NSCLN $(KUBERNETES_NAMESPACE)"
+	@kubectl delete namespace "$(KUBERNETES_NAMESPACE)" 2>/dev/null
+	@kubectl delete -f ../common/  2>/dev/null || exit 0
+	@kubectl apply -f ../common/ || exit 0
+
+distclean: 
 	@echo "### KUB / DCLN  $(KUBERNETES_NAMESPACE)"
+	@CMD="" ; \
+	while read f ; do \
+	    CMD="$$CMD -f $$f" ; \
+	done < <( find . -type f  \( -name "*.yml" -o -name "*.yaml" \) ) ; \
+	kubectl delete $$CMD 2>/dev/null || exit 0
 	@kubectl delete namespace $(KUBERNETES_NAMESPACE) 2> /dev/null || exit 0
+	@kubectl delete -f ../common/ 2>/dev/null || exit 0
 
 docker-clean:
 

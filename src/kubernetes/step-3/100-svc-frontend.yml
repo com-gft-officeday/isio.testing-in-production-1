@@ -11,6 +11,6 @@ spec:
       port: 80
       targetPort: 8080
   selector:
-    demo/project: com.gft.deuba.unity.release-1
-    demo/app: step-3
-    demo/module: frontend
+    PROJECT: com.gft.deuba.unity.release-1
+    app.kubernetes.io/part-of: step-3
+    app.kubernetes.io/component: frontend

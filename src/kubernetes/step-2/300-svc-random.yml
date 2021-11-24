@@ -7,10 +7,10 @@ metadata:
   namespace: com-gft-deuba-unity-release-1
 spec:
   selector:
-    demo/project: com.gft.deuba.unity.release-1
-    demo/app: step-2
-    demo/module: random
-    demo/version: "1.0.0"
+    PROJECT: com.gft.deuba.unity.release-1
+    app.kubernetes.io/part-of: step-2
+    app.kubernetes.io/component: random
+    app.kubernetes.io/version: "1.0.0"
   ports:
     - protocol: TCP
       port: 80

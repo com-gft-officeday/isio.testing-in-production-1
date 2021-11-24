@@ -15,10 +15,10 @@ alias dcr='docker container run --label="PROJECT=$PROJECT" --label="CUSTOMER=$CU
 alias dexec='docker container exec -i -t '
 
 alias kctl='kubectl --namespace ${KUBERNETES_NAMESPACE}'
-alias ks1='kubectl --namespace "${KUBERNETES_BASE_NAMESPACE}-step-1"'
-alias ks2='kubectl --namespace "${KUBERNETES_BASE_NAMESPACE}-step-2"'
-alias ks3='kubectl --namespace "${KUBERNETES_BASE_NAMESPACE}-step-3"'
-alias ks4='kubectl --namespace "${KUBERNETES_BASE_NAMESPACE}-step-4"'
+alias ks1='kubectl --namespace "${KUBERNETES_BASE_NAMESPACE}"'
+alias ks2='kubectl --namespace "${KUBERNETES_BASE_NAMESPACE}"'
+alias ks3='kubectl --namespace "${KUBERNETES_BASE_NAMESPACE}"'
+alias ks4='kubectl --namespace "${KUBERNETES_BASE_NAMESPACE}"'
 
 function split_project() {
     local path="$1" ; shift

@@ -6,25 +6,25 @@ metadata:
   name: random
   namespace: com-gft-deuba-unity-release-1
   labels:
-    demo/project: com.gft.deuba.unity.release-1
-    demo/app: step-3
-    demo/module: random
+    PROJECT: com.gft.deuba.unity.release-1
+    app.kubernetes.io/part-of: step-3
+    app.kubernetes.io/component: random
 spec:
   replicas: 3
   selector:
     matchLabels:
-      demo/project: com.gft.deuba.unity.release-1
-      demo/app: step-3
-      demo/module: random
+      PROJECT: com.gft.deuba.unity.release-1
+      app.kubernetes.io/part-of: step-3
+      app.kubernetes.io/component: random
   template:
     metadata:
       name: random-1
       namespace: com-gft-deuba-unity-release-1
       labels:
-        demo/project: com.gft.deuba.unity.release-1
-        demo/app: step-3
-        demo/module: random
-        demo/version: "1.0.0"
+        PROJECT: com.gft.deuba.unity.release-1
+        app.kubernetes.io/part-of: step-3
+        app.kubernetes.io/component: random
+        app.kubernetes.io/version: "1.0.0"
     spec:
       containers:
         - name: random

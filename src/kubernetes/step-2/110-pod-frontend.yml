@@ -6,9 +6,9 @@ metadata:
   name: frontend
   namespace: com-gft-deuba-unity-release-1
   labels:
-    demo/project: com.gft.deuba.unity.release-1
-    demo/app: step-2
-    demo/module: frontend
+    PROJECT: com.gft.deuba.unity.release-1
+    app.kubernetes.io/part-of: step-2
+    app.kubernetes.io/component: frontend
 spec:
   containers:
     - name: frontend

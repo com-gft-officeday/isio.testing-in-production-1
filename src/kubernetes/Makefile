@@ -34,6 +34,12 @@ kubernetes: docker
 		make -C  $$dir kubernetes; \
 	done
 
+ls:
+	@echo "### KUB / LS    $(KUBERNETES_NAMESPACE)"
+	@for o in $$( kubectl api-resources --namespaced=true --verbs=delete -o name | sort ) ; do \
+	  kubectl get -n $(KUBERNETES_NAMESPACE) "$$o" 2>/dev/null | sed -e '1i\'$$'\n'"    $$o" -e 's/^/        /' ; \
+	done
+
 clean:
 	@for dir in $(SUBDIRS) ; do \
 	    TIMESTAMP="$(TIMESTAMP)" \
@@ -42,6 +48,12 @@ clean:
 	    PROJECT="$(PROJECT)" \
 		make -C  $$dir clean ; \
 	done
+
+clean-ns: clean
+	@echo "### KUB / NSCLN $(KUBERNETES_NAMESPACE)"
+	@kubectl delete namespace "$(KUBERNETES_NAMESPACE)" 2>/dev/null
+	@kubectl delete -f ../common/  2>/dev/null || exit 0
+	@kubectl apply -f ../common/ || exit 0
 
 distclean:
 	@for dir in $(SUBDIRS) ; do \

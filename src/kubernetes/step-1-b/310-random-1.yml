@@ -7,7 +7,7 @@ metadata:
   namespace: com-gft-deuba-unity-release-1
   labels:
     PROJECT: com.gft.deuba.unity.release-1
-    app.kubernetes.io/part-of: com.gft.deuba.unity.release-1.step-1
+    app.kubernetes.io/part-of: com.gft.deuba.unity.release-1.step-1-b
     app.kubernetes.io/component: random
     app.kubernetes.io/version: "1.0.0"
 spec:

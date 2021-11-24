@@ -8,9 +8,9 @@ metadata:
 spec:
   selector:
     PROJECT: com.gft.deuba.unity.release-1
-    app.kubernetes.io/part-of: com.gft.deuba.unity.release-1.step-1
+    app.kubernetes.io/part-of: com.gft.deuba.unity.release-1.step-1-b
     app.kubernetes.io/component: thermometer
-    app.kubernetes.io/version: "1.0.0"
+      #    app.kubernetes.io/version: "1.0.0"
   ports:
     - protocol: TCP
       port: 80

@@ -12,5 +12,5 @@ spec:
       targetPort: 8080
   selector:
     PROJECT: com.gft.deuba.unity.release-1
-    app.kubernetes.io/part-of: com.gft.deuba.unity.release-1.step-4
+    app.kubernetes.io/part-of: com.gft.deuba.unity.release-1.step-4-d
     app.kubernetes.io/component: frontend

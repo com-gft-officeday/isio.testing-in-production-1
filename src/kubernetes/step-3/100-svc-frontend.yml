@@ -5,12 +5,18 @@ kind: Service
 metadata:
   name: frontend
   namespace: com-gft-deuba-unity-release-1
+  labels:
+    app: frontend
+    version: "1.0.0"
 spec:
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 80
   selector:
     PROJECT: com.gft.deuba.unity.release-1
     app.kubernetes.io/part-of: com.gft.deuba.unity.release-1.step-3
     app.kubernetes.io/component: frontend
+    app: frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      appProtocol: http
+      name: http-frontend

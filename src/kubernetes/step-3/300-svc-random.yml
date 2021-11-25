@@ -5,13 +5,19 @@ kind: Service
 metadata:
   name: random
   namespace: com-gft-deuba-unity-release-1
+  labels:
+    app: random
+    version: "1.0.0"
 spec:
   selector:
     PROJECT: com.gft.deuba.unity.release-1
     app.kubernetes.io/part-of: com.gft.deuba.unity.release-1.step-3
     app.kubernetes.io/component: random
     app.kubernetes.io/version: "1.0.0"
+    app: random
   ports:
     - protocol: TCP
       port: 80
       targetPort: 8080
+      appProtocol: http
+      name: http-endpoint

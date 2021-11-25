@@ -9,6 +9,9 @@ metadata:
     PROJECT: com.gft.deuba.unity.release-1
     app.kubernetes.io/part-of: com.gft.deuba.unity.release-1.step-3
     app.kubernetes.io/component: frontend
+    app.kubernetes.io/version: "1.0.0"
+    app: frontend
+    version: "1.0.0"
 spec:
   containers:
     - name: frontend

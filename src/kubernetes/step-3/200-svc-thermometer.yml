@@ -5,12 +5,17 @@ kind: Service
 metadata:
   name: thermometer
   namespace: com-gft-deuba-unity-release-1
+  labels:
+    app: thermometer
 spec:
   selector:
     PROJECT: com.gft.deuba.unity.release-1
     app.kubernetes.io/part-of: com.gft.deuba.unity.release-1.step-3
     app.kubernetes.io/component: thermometer
+    app: thermometer
   ports:
     - protocol: TCP
       port: 80
       targetPort: 8080
+      appProtocol: http
+      name: http-endpoint

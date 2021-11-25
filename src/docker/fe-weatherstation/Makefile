@@ -19,90 +19,46 @@ BUILD_DIR ?= ./build/
 
 DOCKER_DIR   ?= $(BUILD_DIR)/docker
 DOCKER_VARIANT ?= alpine
-DOCKER_IMAGES:= with-content v1 v2 v3
+DOCKER_IMAGES:= gcp kubernetes-nodeport kubernetes-istio docker-compose development
 
 SRCS := $(shell (find ../../angular/$(COMPONENT)  -type f -not -path '*/node_modules/*' ) )
 all: docker
 
 .PHONY: docker-clean clean docker-distclean distclean docker docker-ls ls docker-test test
 
-docker: $(DOCKER_DIR)/$(TARGET)-with-content.iid \
+docker: $(DOCKER_DIR)/$(TARGET)-gcp.iid \
+	$(DOCKER_DIR)/$(TARGET)-kubernetes-nodeport.iid \
+	$(DOCKER_DIR)/$(TARGET)-kubernetes-istio.iid \
+	$(DOCKER_DIR)/$(TARGET)-docker-compose.iid \
+	$(DOCKER_DIR)/$(TARGET)-development.iid 
 
-$(DOCKER_DIR)/$(TARGET)-with-content.iid: Dockerfile-with-content \
+gcp:                 $(DOCKER_DIR)/$(TARGET)-gcp.iid
+kubernetes-nodeport: $(DOCKER_DIR)/$(TARGET)-kubernetes-nodeport.iid
+kubernetes-istio:    $(DOCKER_DIR)/$(TARGET)-kubernetes-istio.iid
+docker-compose:      $(DOCKER_DIR)/$(TARGET)-docker-compose.iid
+development:         $(DOCKER_DIR)/$(TARGET)-development.iid
+
+$(DOCKER_DIR)/$(TARGET)-%.iid: Dockerfile \
 	$(SRCS) 
-	@echo "### DOCK/DOCK  $(PROJECT).$(MODULE).$(COMPONENT) - $(DOCKER_VARIANT) - with-content"
+	@echo "### DOCK/DOCK  $(PROJECT).$(MODULE).$(COMPONENT) - $(DOCKER_VARIANT) - $*"
 	@$(MKDIR) "$(DOCKER_DIR)"
-	@if [ -f "$(DOCKER_DIR)/$(TARGET)-with-content.iid" ] ; then i=$$( cat "$(DOCKER_DIR)/$(TARGET)-with-content.iid" ); docker image rm -f $$i ; rm -f "$(DOCKER_DIR)/$(TARGET)-with-content.iid"  2>/dev/null ; fi
-	@docker image build -f ./Dockerfile-with-content \
+	@if [ -f "$(DOCKER_DIR)/$(TARGET)-$*.iid" ] ; then i=$$( cat "$(DOCKER_DIR)/$(TARGET)-$*.iid" ); docker image rm -f $$i ; rm -f "$(DOCKER_DIR)/$(TARGET)-$*.iid"  2>/dev/null ; fi
+	@docker image build -f ./Dockerfile* \
 	  --build-arg GITHASH="$(_GITHASH)" \
 	  --build-arg COMPONENT=$(COMPONENT) \
 	  --build-arg MODULE=$(MODULE) \
 	  --build-arg PROJECT=$(PROJECT) \
 	  --build-arg CUSTOMER=$(CUSTOMER) \
-	  --tag $(TARGET):with-content \
+	  --build-arg VARIANT=$* \
+	  --tag $(TARGET):$* \
 	  --label GITHASH="$(_GITHASH)" \
 	  --label COMPONENT=$(COMPONENT) \
 	  --label MODULE=$(MODULE) \
 	  --label PROJECT=$(PROJECT) \
 	  --label CUSTOMER=$(CUSTOMER) \
-	  --iidfile "$(DOCKER_DIR)/$(TARGET)-with-content.iid" \
+	  --label VARIANT="$*" \
+	  --iidfile "$(DOCKER_DIR)/$(TARGET)-$*.iid" \
 	  ../../..
-
-$(DOCKER_DIR)/$(TARGET)-v1.iid: Dockerfile-v1 
-	@echo "### DOCK/DOCK  $(PROJECT).$(MODULE).$(COMPONENT) - $(DOCKER_VARIANT) - v1"
-	@$(MKDIR) "$(DOCKER_DIR)"
-	@if [ -f "$(DOCKER_DIR)/$(TARGET)-v1.iid" ] ; then i=$$( cat "$(DOCKER_DIR)/$(TARGET)-v1.iid" ); docker image rm -f $$i ; rm -f "$(DOCKER_DIR)/$(TARGET)-v1.iid"  2>/dev/null ; fi
-	@docker image build -f ./Dockerfile-v1 \
-	  --build-arg GITHASH="$(_GITHASH)" \
-	  --build-arg COMPONENT=$(COMPONENT) \
-	  --build-arg MODULE=$(MODULE) \
-	  --build-arg PROJECT=$(PROJECT) \
-	  --build-arg CUSTOMER=$(CUSTOMER) \
-	  --tag $(TARGET):v1 \
-	  --label GITHASH="$(_GITHASH)" \
-	  --label COMPONENT=$(COMPONENT) \
-	  --label MODULE=$(MODULE) \
-	  --label PROJECT=$(PROJECT) \
-	  --label CUSTOMER=$(CUSTOMER) \
-	  --iidfile "$(DOCKER_DIR)/$(TARGET)-v1.iid" \
-	  .
-
-$(DOCKER_DIR)/$(TARGET)-v2.iid: Dockerfile-v2 
-	@echo "### DOCK/DOCK  $(PROJECT).$(MODULE).$(COMPONENT) - $(DOCKER_VARIANT) - v2"
-	@$(MKDIR) "$(DOCKER_DIR)"
-	@if [ -f "$(DOCKER_DIR)/$(TARGET)-v2.iid" ] ; then i=$$( cat "$(DOCKER_DIR)/$(TARGET)-v2.iid" ); docker image rm -f $$i ; rm -f "$(DOCKER_DIR)/$(TARGET)-v2.iid"  2>/dev/null ; fi
-	@docker image build -f ./Dockerfile-v2 \
-	  --build-arg GITHASH="$(_GITHASH)" \
-	  --build-arg COMPONENT=$(COMPONENT) \
-	  --build-arg MODULE=$(MODULE) \
-	  --build-arg PROJECT=$(PROJECT) \
-	  --build-arg CUSTOMER=$(CUSTOMER) \
-	  --tag $(TARGET):v2 \
-	  --label GITHASH="$(_GITHASH)" \
-	  --label COMPONENT=$(COMPONENT) \
-	  --label MODULE=$(MODULE) \
-	  --label PROJECT=$(PROJECT) \
-	  --label CUSTOMER=$(CUSTOMER) \
-	  --iidfile "$(DOCKER_DIR)/$(TARGET)-v2.iid" \
-	  .
-$(DOCKER_DIR)/$(TARGET)-v3.iid: Dockerfile-v3 
-	@echo "### DOCK/DOCK  $(PROJECT).$(MODULE).$(COMPONENT) - $(DOCKER_VARIANT) - v3"
-	@$(MKDIR) "$(DOCKER_DIR)"
-	@if [ -f "$(DOCKER_DIR)/$(TARGET)-v3.iid" ] ; then i=$$( cat "$(DOCKER_DIR)/$(TARGET)-v3.iid" ); docker image rm -f $$i ; rm -f "$(DOCKER_DIR)/$(TARGET)-v3.iid"  2>/dev/null ; fi
-	@docker image build -f ./Dockerfile-v3 \
-	  --build-arg GITHASH="$(_GITHASH)" \
-	  --build-arg COMPONENT=$(COMPONENT) \
-	  --build-arg MODULE=$(MODULE) \
-	  --build-arg PROJECT=$(PROJECT) \
-	  --build-arg CUSTOMER=$(CUSTOMER) \
-	  --tag $(TARGET):v3 \
-	  --label GITHASH="$(_GITHASH)" \
-	  --label COMPONENT=$(COMPONENT) \
-	  --label MODULE=$(MODULE) \
-	  --label PROJECT=$(PROJECT) \
-	  --label CUSTOMER=$(CUSTOMER) \
-	  --iidfile "$(DOCKER_DIR)/$(TARGET)-v3.iid" \
-	  .
 
 docker-clean clean:
 	@echo "### DOCK/DOCLN $(PROJECT).$(MODULE).$(COMPONENT) - $(DOCKER_VARIANT)"

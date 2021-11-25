@@ -12,11 +12,14 @@ spec:
   selector:
     istio: ingressgateway
   servers:
+
   - port:
       number: 80
       name: http
       protocol: HTTP
+
     hosts:
+
     - "*"
 
 ##############################################################################
@@ -42,40 +45,19 @@ spec:
   http:
 
     - name: thermometer
+
       match:
       - uri:
           prefix: /thermometer/
+
       rewrite:
         uri: /
-      route:
-        - destination:
-            port:
-              number: 80
-            host: thermometer-int
 
-# http://127.0.0.1/thermometer/measure
-# http://thermometer-int/measure
+      delegate:
+        name: thermometer-delegate
+        namespace: com-gft-deuba-unity-release-1
 
-
-    - name: prod
-      match:
-      - uri:
-          prefix: /prod/
-      - uri:
-          exact: /prod
-      rewrite:
-        uri: /
-      headers:
-        request:
-          set:
-            x-environment: prod
-      route:
-        - destination:
-            port:
-              number: 80
-            host: frontend
-
-    - name: pre-prod
+    - name: frontend-pre-prod
       match:
       - uri:
           prefix: /pre-prod/
@@ -83,27 +65,49 @@ spec:
           exact: /pre-prod
       rewrite:
         uri: /
+
       headers:
         request:
           set:
             x-environment: pre-prod
+
       route:
         - destination:
+            host: frontend
             port:
               number: 80
-            host: frontend
 
-    - name: fallthrough
+    - name: frontend-prod
       match:
       - uri:
-          regex: '.*'
+          prefix: /prod/
+      - uri:
+          exact: /prod
+
       headers:
         request:
           set:
             x-environment: prod
+
+      rewrite:
+        uri: /
+
       route:
         - destination:
+            host: frontend
             port:
               number: 80
+
+    - name: frontend-fallback
+
+      headers:
+        request:
+          set:
+            x-environment: pre-prod
+
+      route:
+        - destination:
             host: frontend
+            port:
+              number: 80
 

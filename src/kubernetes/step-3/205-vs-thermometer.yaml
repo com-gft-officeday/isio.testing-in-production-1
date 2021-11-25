@@ -3,18 +3,10 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: thermometer-route
+  name: thermometer-delegate
   namespace: com-gft-deuba-unity-release-1
 
 spec:
-
-  gateways:
-
-    - app-ingress-gateway
-
-  hosts:
-
-    - thermometer-int
 
   http:
   
@@ -25,7 +17,7 @@ spec:
             exact: prod
       route:
         - destination:
-            host: thermometer-int
+            host: thermometer
             subset: prod
 
     - name: thermometer-pre-prod
@@ -35,14 +27,11 @@ spec:
             exact: pre-prod
       route:
         - destination:
-            host: thermometer-int
+            host: thermometer
             subset: pre-prod
 
     - name: fallthrough
-      match:
-      - uri:
-          regex: '.*'
       route:
         - destination:
-            host: thermometer-int
+            host: thermometer
             subset: prod

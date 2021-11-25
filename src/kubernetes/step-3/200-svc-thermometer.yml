@@ -3,7 +3,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: thermometer-int
+  name: thermometer
   namespace: com-gft-deuba-unity-release-1
 spec:
   selector:

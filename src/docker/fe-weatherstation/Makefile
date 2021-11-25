@@ -49,7 +49,7 @@ $(DOCKER_DIR)/$(TARGET)-%.iid: Dockerfile \
 	  --build-arg MODULE=$(MODULE) \
 	  --build-arg PROJECT=$(PROJECT) \
 	  --build-arg CUSTOMER=$(CUSTOMER) \
-	  --build-arg VARIANT=$* \
+	  --build-arg VARIANT="$*" \
 	  --tag $(TARGET):$* \
 	  --label GITHASH="$(_GITHASH)" \
 	  --label COMPONENT=$(COMPONENT) \

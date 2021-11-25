@@ -17,5 +17,8 @@ ARG VARIANT
 ENV VARIANT=$VARIANT
 
 COPY --from=builder /opt/fe-weatherstation/dist/weatherstation-fe /usr/share/nginx/html
+COPY src/docker/fe-weatherstation/app.conf /etc/nginx/conf.d
+RUN chown root:root /etc/nginx/conf.d/app.conf && \
+    chmod 0644      /etc/nginx/conf.d/app.conf
 
 LABEL VARIANT=$VARIANT

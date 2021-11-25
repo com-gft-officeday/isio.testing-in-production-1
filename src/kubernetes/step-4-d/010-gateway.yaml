@@ -86,6 +86,20 @@ spec:
               set:
                 x-environment: pre-prod
 
+    - name: thermometer
+      match:
+      - uri:
+          prefix: /thermometer/
+      - uri:
+          exact: /thermometer
+      rewrite:
+        uri: /
+      route:
+        - destination:
+            port:
+              number: 80
+            host: thermometer
+
     - name: fallthrough
       match:
       - uri:

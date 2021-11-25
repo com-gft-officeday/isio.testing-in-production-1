@@ -9,7 +9,7 @@ spec:
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 8080
+      targetPort: 80
   selector:
     PROJECT: com.gft.deuba.unity.release-1
     app.kubernetes.io/part-of: com.gft.deuba.unity.release-1.step-4-b

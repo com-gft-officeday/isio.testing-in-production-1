@@ -32,23 +32,30 @@ metadata:
 spec:
 
   hosts:
+
     - "*"
 
   gateways:
+
     - app-ingress-gateway
 
   http:
-    - name: static
+
+    - name: thermometer
       match:
       - uri:
-          prefix: /static/
-      - uri:
-          exact: /static
+          prefix: /thermometer/
+      rewrite:
+        uri: /
       route:
         - destination:
             port:
               number: 80
-            host: frontend
+            host: thermometer-int
+
+# http://127.0.0.1/thermometer/measure
+# http://thermometer-int/measure
+
 
     - name: prod
       match:
@@ -76,22 +83,24 @@ spec:
           exact: /pre-prod
       rewrite:
         uri: /
+      headers:
+        request:
+          set:
+            x-environment: pre-prod
       route:
         - destination:
             port:
               number: 80
             host: frontend
-          headers:
-            request:
-              set:
-                x-environment: pre-prod
 
     - name: fallthrough
       match:
       - uri:
           regex: '.*'
-      rewrite:
-        uri: /static/error-404.html
+      headers:
+        request:
+          set:
+            x-environment: prod
       route:
         - destination:
             port:

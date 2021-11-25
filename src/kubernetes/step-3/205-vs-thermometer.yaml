@@ -8,8 +8,13 @@ metadata:
 
 spec:
 
+  gateways:
+
+    - app-ingress-gateway
+
   hosts:
-    - thermometer
+
+    - thermometer-int
 
   http:
   
@@ -20,7 +25,7 @@ spec:
             exact: prod
       route:
         - destination:
-            host: thermometer
+            host: thermometer-int
             subset: prod
 
     - name: thermometer-pre-prod
@@ -30,18 +35,14 @@ spec:
             exact: pre-prod
       route:
         - destination:
-            host: thermometer
+            host: thermometer-int
             subset: pre-prod
 
-    - name: thermometer-fallthrough
+    - name: fallthrough
       match:
       - uri:
           regex: '.*'
-      rewrite:
-        uri: /static/error-404.html
       route:
         - destination:
-            port:
-              number: 80
-            host: frontend
-
+            host: thermometer-int
+            subset: prod

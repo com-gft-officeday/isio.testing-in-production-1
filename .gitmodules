@@ -10,3 +10,6 @@
 [submodule "src/angular/fe-weatherstation"]
 	path = src/angular/fe-weatherstation
 	url = ../../com-gft-tsbo-source/angular-fe-weatherstation
+[submodule "src/go/common"]
+	path = src/go/common
+	url = ../../com-gft-tsbo-source/go-common

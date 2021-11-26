@@ -60,16 +60,16 @@ spec:
         uri: /
 
       headers:
+
         request:
           set:
-            Set-Cookie: environment=pre-prod
+            Set-Cookie: environment=
             x-environment: pre-prod
-            x-debug-info: XXX-1
+
         response:
           set:
             Set-Cookie: environment=pre-prod
             x-environment: pre-prod
-            x-debug-info: XXX-2
 
       route:
         - destination:
@@ -93,16 +93,16 @@ spec:
         uri: /
 
       headers:
+
         request:
           set:
-            Set-Cookie: environment=prod
+            Set-Cookie: environment=
             x-environment: prod
-            x-debug-info: XXX-3
+
         response:
           set:
             Set-Cookie: environment=prod
             x-environment: prod
-            x-debug-info: XXX-4
 
       route:
         - destination:
@@ -178,12 +178,10 @@ spec:
         request:
           set:
             x-environment: pre-prod
-            x-debug-info: XXX-5
+
         response:
           set:
-            Set-Cookie: environment=pre-prod
             x-environment: pre-prod
-            x-debug-info: XXX-6
 
       route:
         - destination:
@@ -209,20 +207,13 @@ spec:
       headers:
         request:
           set:
-            Set-Cookie: environment=prod
             x-environment: prod
-            x-debug-info: XXX-7
+
         response:
           set:
-            Set-Cookie: environment=prod
             x-environment: prod
-            x-debug-info: XXX-8
 
       route:
         - destination:
             host: thermometer
             subset: prod
-
-      # delegate:
-      #   name: thermometer-delegate
-      #   namespace: com-gft-deuba-unity-release-1

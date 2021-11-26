@@ -30,7 +30,7 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: frontend-route
+  name: frontend-ingress
   namespace: com-gft-deuba-unity-release-1
 spec:
 
@@ -44,70 +44,185 @@ spec:
 
   http:
 
-    - name: thermometer
+# ----------------------------------------------------------------------------
+
+    - name: frontend-pre-prod
 
       match:
+
+      - uri:
+          prefix: /pre-prod/
+
+      - uri:
+          exact: /pre-prod
+
+      rewrite:
+        uri: /
+
+      headers:
+        request:
+          set:
+            Set-Cookie: environment=pre-prod
+            x-environment: pre-prod
+            x-debug-info: XXX-1
+        response:
+          set:
+            Set-Cookie: environment=pre-prod
+            x-environment: pre-prod
+            x-debug-info: XXX-2
+
+      route:
+        - destination:
+            host: frontend
+            port:
+              number: 80
+
+# ----------------------------------------------------------------------------
+
+    - name: frontend-prod
+
+      match:
+
+      - uri:
+          prefix: /prod/
+
+      - uri:
+          exact: /prod
+
+      rewrite:
+        uri: /
+
+      headers:
+        request:
+          set:
+            Set-Cookie: environment=prod
+            x-environment: prod
+            x-debug-info: XXX-3
+        response:
+          set:
+            Set-Cookie: environment=prod
+            x-environment: prod
+            x-debug-info: XXX-4
+
+      route:
+        - destination:
+            host: frontend
+            port:
+              number: 80
+
+# ----------------------------------------------------------------------------
+
+    - name: frontend-fallthrough
+
+      # headers:
+      #   request:
+      #     set:
+      #       x-environment: prod
+      #   response:
+      #     set:
+      #       Set-Cookie: environment=prod
+      #       x-environment: prod
+
+      route:
+        - destination:
+            host: frontend
+            port:
+              number: 80
+
+##############################################################################
+---
+
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: thermometer-ingress
+  namespace: com-gft-deuba-unity-release-1
+spec:
+
+  hosts:
+
+    - "*"
+
+  gateways:
+
+    - app-ingress-gateway
+
+  http:
+
+# ----------------------------------------------------------------------------
+
+    - name: thermometer-pre-prod
+
+      match:
+
+      - uri:
+
+          prefix: /thermometer/
+
+        headers:
+          x-environment: 
+            exact: pre-prod
+
+      - uri:
+
+          prefix: /thermometer/
+
+        headers:
+          Cookie:
+            regex: (.*;\s*)?environment=pre-prod(\s*;.*)?
+
+      rewrite:
+        uri: /
+
+      headers:
+        request:
+          set:
+            x-environment: pre-prod
+            x-debug-info: XXX-5
+        response:
+          set:
+            Set-Cookie: environment=pre-prod
+            x-environment: pre-prod
+            x-debug-info: XXX-6
+
+      route:
+        - destination:
+            host: thermometer
+            subset: pre-prod
+
+      # delegate:
+      #   name: thermometer-delegate
+      #   namespace: com-gft-deuba-unity-release-1
+
+# ----------------------------------------------------------------------------
+
+    - name: thermometer-fallthrough
+
+      match:
+
       - uri:
           prefix: /thermometer/
 
       rewrite:
         uri: /
 
-      delegate:
-        name: thermometer-delegate
-        namespace: com-gft-deuba-unity-release-1
-
-    - name: frontend-pre-prod
-      match:
-      - uri:
-          prefix: /pre-prod/
-      - uri:
-          exact: /pre-prod
-      rewrite:
-        uri: /
-
       headers:
         request:
           set:
-            x-environment: pre-prod
-
-      route:
-        - destination:
-            host: frontend
-            port:
-              number: 80
-
-    - name: frontend-prod
-      match:
-      - uri:
-          prefix: /prod/
-      - uri:
-          exact: /prod
-
-      headers:
-        request:
-          set:
+            Set-Cookie: environment=prod
             x-environment: prod
-
-      rewrite:
-        uri: /
-
-      route:
-        - destination:
-            host: frontend
-            port:
-              number: 80
-
-    - name: frontend-fallback
-
-      headers:
-        request:
+            x-debug-info: XXX-7
+        response:
           set:
-            x-environment: pre-prod
+            Set-Cookie: environment=prod
+            x-environment: prod
+            x-debug-info: XXX-8
 
       route:
         - destination:
-            host: frontend
-            port:
-              number: 80
+            host: thermometer
+            subset: prod
 
+      # delegate:
+      #   name: thermometer-delegate
+      #   namespace: com-gft-deuba-unity-release-1

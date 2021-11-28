@@ -29,7 +29,6 @@ spec:
       match:
 
       - uri:
-
           prefix: /thermometer/
 
         headers:
@@ -69,6 +68,18 @@ spec:
 
       - uri:
           prefix: /thermometer/
+
+        headers:
+          x-environment: 
+            exact: prod
+
+      - uri:
+
+          prefix: /thermometer/
+
+        headers:
+          Cookie:
+            regex: (.*;\s*)?environment=prod(\s*;.*)?
 
       rewrite:
         uri: /

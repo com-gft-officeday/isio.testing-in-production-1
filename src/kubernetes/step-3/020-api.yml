@@ -4,18 +4,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: frontend
+  name: api
   namespace: com-gft-deuba-unity-release-1
   labels:
     PROJECT: com.gft.deuba.unity.release-1
-    app: frontend
+
 spec:
-  selector:
-    PROJECT: com.gft.deuba.unity.release-1
-    app: frontend
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 80
-      appProtocol: http
-      name: http-frontend
+
+  type: ExternalName
+  externalName: istio-ingressgateway.istio-system.svc.cluster.local
+

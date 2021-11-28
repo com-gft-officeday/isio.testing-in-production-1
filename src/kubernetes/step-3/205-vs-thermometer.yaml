@@ -6,6 +6,10 @@ kind: VirtualService
 metadata:
   name: thermometer-ingress
   namespace: com-gft-deuba-unity-release-1
+  labels:
+    PROJECT: com.gft.deuba.unity.release-1
+    app: thermometer
+
 spec:
 
   hosts:
@@ -56,10 +60,6 @@ spec:
         - destination:
             host: thermometer
             subset: pre-prod
-
-      # delegate:
-      #   name: thermometer-delegate
-      #   namespace: com-gft-deuba-unity-release-1
 
 # ----------------------------------------------------------------------------
 

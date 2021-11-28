@@ -4,11 +4,11 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: frontend-ingress
+  name: random-ingress
   namespace: com-gft-deuba-unity-release-1
   labels:
     PROJECT: com.gft.deuba.unity.release-1
-    app: frontend
+    app: random
 
 spec:
 
@@ -24,77 +24,66 @@ spec:
 
 # ----------------------------------------------------------------------------
 
-    - name: frontend-pre-prod
+    - name: random-pre-prod
 
       match:
 
       - uri:
-          prefix: /pre-prod/
+
+          prefix: /random/
+
+        headers:
+          x-environment: 
+            exact: pre-prod
 
       - uri:
-          exact: /pre-prod
+
+          prefix: /random/
+
+        headers:
+          Cookie:
+            regex: (.*;\s*)?environment=pre-prod(\s*;.*)?
 
       rewrite:
         uri: /
 
       headers:
-
         request:
           set:
-            Set-Cookie: environment=
             x-environment: pre-prod
 
         response:
           set:
-            Set-Cookie: environment=pre-prod
             x-environment: pre-prod
 
       route:
         - destination:
-            host: frontend
-            port:
-              number: 80
+            host: random
+            subset: pre-prod
 
 # ----------------------------------------------------------------------------
 
-    - name: frontend-prod
+    - name: random-fallthrough
 
       match:
 
       - uri:
-          prefix: /prod/
-
-      - uri:
-          exact: /prod
+          prefix: /random/
 
       rewrite:
         uri: /
 
       headers:
-
         request:
           set:
-            Set-Cookie: environment=
             x-environment: prod
 
         response:
           set:
-            Set-Cookie: environment=prod
             x-environment: prod
 
       route:
         - destination:
-            host: frontend
-            port:
-              number: 80
-
-# ----------------------------------------------------------------------------
-
-    - name: frontend-fallthrough
-
-      route:
-        - destination:
-            host: frontend
-            port:
-              number: 80
+            host: random
+            subset: prod
 

@@ -2,25 +2,24 @@
 ---
 
 apiVersion: networking.istio.io/v1alpha3
-kind: Gateway
+kind: DestinationRule
 metadata:
-  name: app-ingress-gateway
+  name: random-destination
   namespace: com-gft-deuba-unity-release-1
-  labels: 
+  labels:
     PROJECT: com.gft.deuba.unity.release-1
+    app: random
 
 spec:
 
-  selector:
-    istio: ingressgateway
+  host: random
+  
+  subsets:
 
-  servers:
+  - name: prod
+    labels:
+      version: "1.0.0"
 
-  - port:
-      number: 80
-      name: http
-      protocol: HTTP
-
-    hosts:
-
-    - "*"
+  - name: pre-prod
+    labels:
+      version: "1.0.0"

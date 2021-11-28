@@ -4,7 +4,7 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: thermometer-ingress
+  name: frontend-ingress
   namespace: com-gft-deuba-unity-release-1
 spec:
 
@@ -20,70 +20,79 @@ spec:
 
 # ----------------------------------------------------------------------------
 
-    - name: thermometer-pre-prod
+    - name: frontend-pre-prod
 
       match:
 
       - uri:
-
-          prefix: /thermometer/
-
-        headers:
-          x-environment: 
-            exact: pre-prod
+          prefix: /pre-prod/
 
       - uri:
-
-          prefix: /thermometer/
-
-        headers:
-          Cookie:
-            regex: (.*;\s*)?environment=pre-prod(\s*;.*)?
+          exact: /pre-prod
 
       rewrite:
         uri: /
 
       headers:
+
         request:
           set:
+            Set-Cookie: environment=
             x-environment: pre-prod
 
         response:
           set:
+            Set-Cookie: environment=pre-prod
             x-environment: pre-prod
 
       route:
         - destination:
-            host: thermometer
-            subset: pre-prod
-
-      # delegate:
-      #   name: thermometer-delegate
-      #   namespace: com-gft-deuba-unity-release-1
+            host: frontend
+            port:
+              number: 80
 
 # ----------------------------------------------------------------------------
 
-    - name: thermometer-fallthrough
+    - name: frontend-prod
 
       match:
 
       - uri:
-          prefix: /thermometer/
+          prefix: /prod/
+
+      - uri:
+          exact: /prod
 
       rewrite:
         uri: /
 
       headers:
+
         request:
           set:
+            Set-Cookie: environment=
             x-environment: prod
 
         response:
           set:
+            Set-Cookie: environment=prod
             x-environment: prod
 
       route:
         - destination:
-            host: thermometer
-            subset: prod
+            host: frontend
+            port:
+              number: 80
+
+# ----------------------------------------------------------------------------
+
+    - name: frontend-fallthrough
+
+      headers:
+
+      route:
+        - destination:
+            host: frontend
+            port:
+              number: 80
 

@@ -30,14 +30,10 @@ spec:
 
         request:
           set:
-#             Set-Cookie: environment=
             x-environment: pre-prod
 
         response:
           set:
-#             Set-Cookie: environment=pre-prod; Domain=localgft.com; SameSite=None; Secure; HttpOnly
-            Set-Cookie: environment=pre-prod; SameSite=None; Secure; HttpOnly
-            Access-Control-Allow-Origin: "*"
             x-environment: pre-prod
 
       route:
@@ -45,18 +41,6 @@ spec:
             host: frontend
             port:
               number: 80
-
-      corsPolicy:
-        allowOrigins:
-        - regex: ".*"
-        allowMethods:
-        - GET
-        - POST
-        - OPTIONS
-        maxAge: 24h
-        allowCredentials: true
-
-
 
 ##############################################################################
 ---
@@ -75,7 +59,6 @@ spec:
   hosts:
 
     - "mysite-prod.localgft.com"
-#     - "mysite-pilot.localgft.com"
 
   gateways:
 
@@ -91,14 +74,10 @@ spec:
 
         request:
           set:
-#             Set-Cookie: environment=
             x-environment: prod
 
         response:
           set:
-#             Set-Cookie: environment=prod; Domain=localgft.com; SameSite=None; Secure; HttpOnly
-            Set-Cookie: environment=prod; SameSite=None; Secure; HttpOnly
-            Access-Control-Allow-Origin: "*"
             x-environment: prod
 
       route:
@@ -106,15 +85,4 @@ spec:
             host: frontend
             port:
               number: 80
-
-      corsPolicy:
-        allowOrigins:
-        - regex: ".*"
-        allowMethods:
-        - GET
-        - POST
-        - OPTIONS
-        maxAge: 24h
-        allowCredentials: true
-
 

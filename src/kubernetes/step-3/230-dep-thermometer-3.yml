@@ -13,7 +13,7 @@ metadata:
 
 spec:
 
-  replicas: 3
+  replicas: 1
 
   selector:
     matchLabels:
@@ -32,7 +32,7 @@ spec:
         - name: thermometer
           image: com.gft.deuba.unity.release-1.application.ms-measure:v3
           imagePullPolicy: Never
-          args: [ "--type", "thermometer", "--address", "01:00", "--name", "thermometer-3", "--randomsvc", "http://api/random/random" ]
+          args: [ "--type", "thermometer", "--address", "01:00", "--name", "thermometer-3", "--randomsvc", "http://random/random" ]
           ports:
             - containerPort: 8080
           resources:

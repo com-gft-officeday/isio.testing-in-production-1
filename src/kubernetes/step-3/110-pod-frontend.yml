@@ -13,7 +13,7 @@ metadata:
 spec:
   containers:
     - name: frontend
-      image: com.gft.deuba.unity.release-1.frontend.fe-weatherstation:kubernetes-api-https
+      image: com.gft.deuba.unity.release-1.frontend.fe-weatherstation:kubernetes-api
       imagePullPolicy: Never
       resources:
         limits:

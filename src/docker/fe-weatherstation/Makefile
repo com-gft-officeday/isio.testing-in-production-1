@@ -19,7 +19,7 @@ BUILD_DIR ?= ./build/
 
 DOCKER_DIR   ?= $(BUILD_DIR)/docker
 DOCKER_VARIANT ?= alpine
-DOCKER_IMAGES:= gcp kubernetes-nodeport kubernetes-istio docker-compose development
+DOCKER_IMAGES:= kubernetes-api-http kubernetes-api-https gcp kubernetes-nodeport kubernetes-istio docker-compose development
 
 SRCS := $(shell (find ../../angular/$(COMPONENT)  -type f -not -path '*/node_modules/*' ) )
 all: docker
@@ -27,16 +27,22 @@ all: docker
 .PHONY: docker-clean clean docker-distclean distclean docker docker-ls ls docker-test test
 
 docker: $(DOCKER_DIR)/$(TARGET)-gcp.iid \
+	$(DOCKER_DIR)/$(TARGET)-kubernetes-api.iid \
+	$(DOCKER_DIR)/$(TARGET)-kubernetes-api-http.iid \
+	$(DOCKER_DIR)/$(TARGET)-kubernetes-api-https.iid \
 	$(DOCKER_DIR)/$(TARGET)-kubernetes-nodeport.iid \
 	$(DOCKER_DIR)/$(TARGET)-kubernetes-istio.iid \
 	$(DOCKER_DIR)/$(TARGET)-docker-compose.iid \
 	$(DOCKER_DIR)/$(TARGET)-development.iid 
 
-gcp:                 $(DOCKER_DIR)/$(TARGET)-gcp.iid
-kubernetes-nodeport: $(DOCKER_DIR)/$(TARGET)-kubernetes-nodeport.iid
-kubernetes-istio:    $(DOCKER_DIR)/$(TARGET)-kubernetes-istio.iid
-docker-compose:      $(DOCKER_DIR)/$(TARGET)-docker-compose.iid
-development:         $(DOCKER_DIR)/$(TARGET)-development.iid
+gcp:                  $(DOCKER_DIR)/$(TARGET)-gcp.iid
+kubernetes-api:       $(DOCKER_DIR)/$(TARGET)-kubernetes-api.iid
+kubernetes-api-http:  $(DOCKER_DIR)/$(TARGET)-kubernetes-api-http.iid
+kubernetes-api-https: $(DOCKER_DIR)/$(TARGET)-kubernetes-api-https.iid
+kubernetes-nodeport:  $(DOCKER_DIR)/$(TARGET)-kubernetes-nodeport.iid
+kubernetes-istio:     $(DOCKER_DIR)/$(TARGET)-kubernetes-istio.iid
+docker-compose:       $(DOCKER_DIR)/$(TARGET)-docker-compose.iid
+development:          $(DOCKER_DIR)/$(TARGET)-development.iid
 
 $(DOCKER_DIR)/$(TARGET)-%.iid: Dockerfile \
 	$(SRCS) 

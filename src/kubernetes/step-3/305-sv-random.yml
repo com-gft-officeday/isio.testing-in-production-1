@@ -4,7 +4,7 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: random-ingress
+  name: random-ingress-api
   namespace: com-gft-deuba-unity-release-1
   labels:
     PROJECT: com.gft.deuba.unity.release-1
@@ -33,6 +33,7 @@ spec:
           prefix: /random/
 
         headers:
+
           x-environment: 
             exact: pre-prod
 
@@ -63,12 +64,26 @@ spec:
 
 # ----------------------------------------------------------------------------
 
-    - name: random-fallthrough
+    - name: random-prod
 
       match:
 
       - uri:
+
           prefix: /random/
+
+        headers:
+
+          x-environment: 
+            exact: prod
+
+      - uri:
+
+          prefix: /random/
+
+        headers:
+          Cookie:
+            regex: (.*;\s*)?environment=prod(\s*;.*)?
 
       rewrite:
         uri: /

@@ -15,7 +15,6 @@ spec:
   selector:
     PROJECT: com.gft.deuba.unity.release-1
     app: random
-    version: "1.0.0"
   ports:
     - protocol: TCP
       port: 80

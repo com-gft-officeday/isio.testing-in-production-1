@@ -6,11 +6,11 @@ TIMESTAMP ?= $(shell date +%Y%m%d%H%M%S)
 GITHASH ?= $(shell ( git rev-parse HEAD  ) )
 _GITHASH := $(shell ( echo "$(GITHASH)" | sed 's/^ *//; s/  *$$//; s/  */\\|/g') )
 
-SUBDIRS = local-setup step-1-a step-1-b step-2 step-3 step-4-a step-4-b step-4-c step-4-d
+SUBDIRS = local-setup certificates step-1-a step-1-b step-2 step-3 step-4-a step-4-b step-4-c step-4-d
 
-all: 
+all: local-setup certificates
 
-.PHONY: lib bin docker clean distclean dep include
+.PHONY: lib bin docker clean distclean dep include local-setup certificates
 
 lib:
 
@@ -25,7 +25,7 @@ dep:
 docker:
 	@make -C ../docker all
 
-kubernetes: docker
+kubernetes: docker 
 	@for dir in $(SUBDIRS) ; do \
 	    TIMESTAMP="$(TIMESTAMP)" \
 	    GITHASH="$(GITHASH)" \
@@ -33,6 +33,20 @@ kubernetes: docker
 	    PROJECT="$(PROJECT)" \
 		make -C  $$dir kubernetes; \
 	done
+
+certificates:
+	@TIMESTAMP="$(TIMESTAMP)" \
+	GITHASH="$(GITHASH)" \
+	CUSTOMER="$(CUSTOMER)" \
+	PROJECT="$(PROJECT)" \
+	make -C  $$dir certificates
+	
+local-setup:
+	@TIMESTAMP="$(TIMESTAMP)" \
+	GITHASH="$(GITHASH)" \
+	CUSTOMER="$(CUSTOMER)" \
+	PROJECT="$(PROJECT)" \
+	make -C  $$dir local-setup
 
 ls:
 	@echo "### KUB / LS    $(KUBERNETES_NAMESPACE)"

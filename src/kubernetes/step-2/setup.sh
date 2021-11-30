@@ -1,4 +1,4 @@
-COMPONENT=step-2
+COMPONENT=step-3
 source ../../../setup.sh
 export KUBERNETES_NAMESPACE="${KUBERNETES_BASE_NAMESPACE}"
 

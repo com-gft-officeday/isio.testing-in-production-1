@@ -3,7 +3,7 @@ SHELL := /bin/bash
 CUSTOMER ?= com.gft.deuba
 PROJECT ?= com.gft.deuba.unity.release-1
 MODULE ?= infrastructure
-COMPONENT ?= step-2
+COMPONENT ?= step-3
 TARGET ?= $(PROJECT).$(MODULE).$(COMPONENT)
 KUBERNETES_NAMESPACE :=$(shell echo "$$PROJECT" | sed 's/[^a-zA-Z0-9_-]/-/g' )
 
@@ -30,13 +30,13 @@ docker:
 kubernetes: 
 
 ls:
-	@echo "### KUB / LS    $(KUBERNETES_NAMESPACE) - step-2"
+	@echo "### KUB / LS    $(KUBERNETES_NAMESPACE) - step-3"
 	@for o in $$( kubectl api-resources --namespaced=true --verbs=delete -o name | sort ) ; do \
 	  kubectl get -n $(KUBERNETES_NAMESPACE) "$$o" 2>/dev/null | sed -e '1i\'$$'\n'"    $$o" -e 's/^/        /' ; \
 	done
 
 clean: clean-ns
-	@echo "### KUB / CLEAN $(KUBERNETES_NAMESPACE) - step-2"
+	@echo "### KUB / CLEAN $(KUBERNETES_NAMESPACE) - step-3"
 	@CMD="" ; \
 	while read f ; do \
 	    CMD="$$CMD -f $$f" ; \
@@ -44,12 +44,12 @@ clean: clean-ns
 	kubectl delete $$CMD 2>/dev/null || exit 0
 
 clean-ns:
-	@echo "### KUB / NSCLN $(KUBERNETES_NAMESPACE) - step-2"
+	@echo "### KUB / NSCLN $(KUBERNETES_NAMESPACE) - step-3"
 	@kubectl delete namespace "$(KUBERNETES_NAMESPACE)" 2>/dev/null || exit 0
 	@kubectl delete -f ../common/  2>/dev/null || exit 0
 
 distclean: 
-	@echo "### KUB / DCLN  $(KUBERNETES_NAMESPACE) - step-2"
+	@echo "### KUB / DCLN  $(KUBERNETES_NAMESPACE) - step-3"
 	@CMD="" ; \
 	while read f ; do \
 	    CMD="$$CMD -f $$f" ; \

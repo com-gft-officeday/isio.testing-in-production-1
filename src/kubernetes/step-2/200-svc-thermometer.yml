@@ -9,10 +9,14 @@ metadata:
   labels:
     PROJECT: com.gft.deuba.unity.release-1
     app: thermometer
+    version: "1.0.0"
+
 spec:
+
   selector:
     PROJECT: com.gft.deuba.unity.release-1
     app: thermometer
+
   ports:
     - protocol: TCP
       port: 80

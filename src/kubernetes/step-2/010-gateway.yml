@@ -8,6 +8,7 @@ metadata:
   namespace: com-gft-deuba-unity-release-1
   labels: 
     PROJECT: com.gft.deuba.unity.release-1
+    version: "1.0.0"
 
 spec:
 

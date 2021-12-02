@@ -9,6 +9,7 @@ metadata:
   labels:
     PROJECT: com.gft.deuba.unity.release-1
     app: random
+    version: "1.0.0"
 
 spec:
 
@@ -107,6 +108,7 @@ metadata:
   labels:
     PROJECT: com.gft.deuba.unity.release-1
     app: random
+    version: "1.0.0"
 
 spec:
 

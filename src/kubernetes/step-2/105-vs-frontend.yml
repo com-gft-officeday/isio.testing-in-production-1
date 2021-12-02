@@ -9,6 +9,7 @@ metadata:
   labels:
     PROJECT: com.gft.deuba.unity.release-1
     app: frontend
+    version: "1.0.0"
 
 spec:
 
@@ -53,6 +54,7 @@ metadata:
   labels:
     PROJECT: com.gft.deuba.unity.release-1
     app: frontend
+    version: "1.0.0"
 
 spec:
 

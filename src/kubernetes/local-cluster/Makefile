@@ -6,11 +6,11 @@ TIMESTAMP ?= $(shell date +%Y%m%d%H%M%S)
 GITHASH ?= $(shell ( git rev-parse HEAD  ) )
 _GITHASH := $(shell ( echo "$(GITHASH)" | sed 's/^ *//; s/  *$$//; s/  */\\|/g') )
 
-SUBDIRS = local-setup certificates step-1-a step-1-b step-2 step-3 step-4-a step-4-b step-4-c step-4-d
+SUBDIRS = kiali certificates step-1-a step-1-b step-2 step-3 step-4-a step-4-b step-4-c step-4-d
 
-all: local-setup certificates
+all: kiali certificates
 
-.PHONY: lib bin docker clean distclean dep include local-setup certificates
+.PHONY: lib bin docker clean distclean dep include kiali certificates
 
 lib:
 
@@ -41,12 +41,12 @@ certificates:
 	PROJECT="$(PROJECT)" \
 	make -C  $$dir certificates
 	
-local-setup:
+kiali:
 	@TIMESTAMP="$(TIMESTAMP)" \
 	GITHASH="$(GITHASH)" \
 	CUSTOMER="$(CUSTOMER)" \
 	PROJECT="$(PROJECT)" \
-	make -C  $$dir local-setup
+	make -C  $$dir kiali
 
 ls:
 	@echo "### KUB / LS    $(KUBERNETES_NAMESPACE)"

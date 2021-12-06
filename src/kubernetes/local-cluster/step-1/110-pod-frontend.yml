@@ -5,15 +5,15 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: frontend
-  namespace: com-gft-deuba-unity-release-1
+  namespace: com-gft-officeday-isio-testing-in-production-1
   labels:
-    PROJECT: com.gft.deuba.unity.release-1
+    PROJECT: com.gft.officeday.isio.testing-in-production-1
     app: frontend
     version: "1.0.0"
 spec:
   containers:
     - name: frontend
-      image: com.gft.deuba.unity.release-1.frontend.fe-weatherstation:kubernetes-istio
+      image: com.gft.officeday.isio.testing-in-production-1.frontend.fe-weatherstation:kubernetes-istio
       imagePullPolicy: Never
       resources:
         limits:

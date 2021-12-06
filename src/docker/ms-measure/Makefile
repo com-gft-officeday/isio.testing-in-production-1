@@ -1,7 +1,7 @@
 SHELL := /bin/bash
 
-CUSTOMER ?= com.gft.deuba
-PROJECT ?= com.gft.deuba.unity.release-1
+CUSTOMER ?= com.gft.officeday
+PROJECT ?= com.gft.officeday.isio.testing-in-production-1
 MODULE ?= application
 COMPONENT ?= ms-measure
 TARGET ?= $(PROJECT).$(MODULE).$(COMPONENT)

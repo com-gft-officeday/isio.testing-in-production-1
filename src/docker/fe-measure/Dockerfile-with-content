@@ -1,4 +1,4 @@
-FROM com.gft.deuba.unity.release-1.frontend.fe-measure:base
+FROM com.gft.officeday.isio.testing-in-production-1.frontend.fe-measure:base
 
 ARG GITHASH
 ARG TIMESTAMP

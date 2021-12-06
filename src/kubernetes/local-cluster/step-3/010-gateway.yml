@@ -5,9 +5,9 @@ apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
   name: app-ingress-gateway
-  namespace: com-gft-deuba-unity-release-1
+  namespace: com-gft-officeday-isio-testing-in-production-1
   labels: 
-    PROJECT: com.gft.deuba.unity.release-1
+    PROJECT: com.gft.officeday.isio.testing-in-production-1
     version: "1.0.0"
 
 spec:

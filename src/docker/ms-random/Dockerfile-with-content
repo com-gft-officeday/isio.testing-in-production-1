@@ -1,4 +1,4 @@
-FROM com.gft.deuba.unity.release-1.backend.ms-random:base
+FROM com.gft.officeday.isio.testing-in-production-1.backend.ms-random:base
 
 ARG GITHASH
 ARG TIMESTAMP

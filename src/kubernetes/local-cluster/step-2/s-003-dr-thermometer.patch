@@ -5,9 +5,9 @@ apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
   name: thermometer-destination
-  namespace: com-gft-deuba-unity-release-1
+  namespace: com-gft-officeday-isio-testing-in-production-1
   labels:
-    PROJECT: com.gft.deuba.unity.release-1
+    PROJECT: com.gft.officeday.isio.testing-in-production-1
     app: thermometer
 
 spec:

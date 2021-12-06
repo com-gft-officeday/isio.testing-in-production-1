@@ -1,6 +1,6 @@
 export DOMAIN_NAME='com.gft'
-export CUSTOMER_NAME='deuba'
-export PROJECT_NAME='unity.release-1'
+export CUSTOMER_NAME='officeday'
+export PROJECT_NAME='istio.testing-in-production-1'
 
 export DOMAIN="$DOMAIN_NAME"
 export CUSTOMER="$DOMAIN.$CUSTOMER_NAME"

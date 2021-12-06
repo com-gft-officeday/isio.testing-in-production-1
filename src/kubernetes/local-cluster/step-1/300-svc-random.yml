@@ -5,15 +5,15 @@ apiVersion: v1
 kind: Service
 metadata:
   name: random
-  namespace: com-gft-deuba-unity-release-1
+  namespace: com-gft-officeday-isio-testing-in-production-1
   labels:
-    PROJECT: com.gft.deuba.unity.release-1
+    PROJECT: com.gft.officeday.isio.testing-in-production-1
     app: random
 
 spec:
 
   selector:
-    PROJECT: com.gft.deuba.unity.release-1
+    PROJECT: com.gft.officeday.isio.testing-in-production-1
     app: random
   ports:
     - protocol: TCP

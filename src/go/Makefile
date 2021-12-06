@@ -1,7 +1,7 @@
 SHELL := /bin/bash
 
-CUSTOMER ?= com.gft.deuba
-PROJECT ?= com.gft.deuba.unity.release-1
+CUSTOMER ?= com.gft.officeday
+PROJECT ?= com.gft.officeday.isio.testing-in-production-1
 TIMESTAMP ?= $(shell date +%Y%m%d%H%M%S)
 GITHASH ?= $(shell ( git rev-parse HEAD  ) )
 _GITHASH := $(shell ( echo "$(GITHASH)" | sed 's/^ *//; s/  *$$//; s/  */\\|/g') )

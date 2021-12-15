@@ -1,4 +1,4 @@
-FROM com.gft.officeday.isio.testing-in-production-1.application.ms-measure:with-content
+FROM com.gft.officeday.istio.testing-in-production.application.ms-measure:with-content
 
 ARG GITHASH
 ARG TIMESTAMP

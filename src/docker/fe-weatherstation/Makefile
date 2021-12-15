@@ -1,7 +1,7 @@
 SHELL := /bin/bash
 
-CUSTOMER ?= com.gft.officeday
-PROJECT ?= com.gft.officeday.isio.testing-in-production-1
+CUSTOMER ?= com.gft.deuba
+PROJECT ?= com.gft.deuba.unity.release-1
 MODULE ?= frontend
 COMPONENT ?= fe-weatherstation
 TARGET ?= $(PROJECT).$(MODULE).$(COMPONENT)
@@ -19,50 +19,51 @@ BUILD_DIR ?= ./build/
 
 DOCKER_DIR   ?= $(BUILD_DIR)/docker
 DOCKER_VARIANT ?= alpine
-DOCKER_IMAGES:= kubernetes-api-http kubernetes-api-https gcp kubernetes-nodeport kubernetes-istio docker-compose development
+DOCKER_IMAGES:= v1 v2 v3
+DOCKER_REMOTE ?= europe-west3-docker.pkg.dev/ger-dbagntademo-sdb-001/project
 
 SRCS := $(shell (find ../../angular/$(COMPONENT)  -type f -not -path '*/node_modules/*' ) )
 all: docker
 
-.PHONY: docker-clean clean docker-distclean distclean docker docker-ls ls docker-test test
+.PHONY: docker-clean clean docker-distclean distclean docker docker-ls ls docker-test test push docker-push
 
-docker: $(DOCKER_DIR)/$(TARGET)-gcp.iid \
-	$(DOCKER_DIR)/$(TARGET)-kubernetes-api.iid \
-	$(DOCKER_DIR)/$(TARGET)-kubernetes-api-http.iid \
-	$(DOCKER_DIR)/$(TARGET)-kubernetes-api-https.iid \
-	$(DOCKER_DIR)/$(TARGET)-kubernetes-nodeport.iid \
-	$(DOCKER_DIR)/$(TARGET)-kubernetes-istio.iid \
-	$(DOCKER_DIR)/$(TARGET)-docker-compose.iid \
-	$(DOCKER_DIR)/$(TARGET)-development.iid 
+docker: $(DOCKER_DIR)/$(TARGET)-v1.iid \
+	$(DOCKER_DIR)/$(TARGET)-v2.iid \
+	$(DOCKER_DIR)/$(TARGET)-v3.iid 
 
-gcp:                  $(DOCKER_DIR)/$(TARGET)-gcp.iid
-kubernetes-api:       $(DOCKER_DIR)/$(TARGET)-kubernetes-api.iid
-kubernetes-api-http:  $(DOCKER_DIR)/$(TARGET)-kubernetes-api-http.iid
-kubernetes-api-https: $(DOCKER_DIR)/$(TARGET)-kubernetes-api-https.iid
-kubernetes-nodeport:  $(DOCKER_DIR)/$(TARGET)-kubernetes-nodeport.iid
-kubernetes-istio:     $(DOCKER_DIR)/$(TARGET)-kubernetes-istio.iid
-docker-compose:       $(DOCKER_DIR)/$(TARGET)-docker-compose.iid
-development:          $(DOCKER_DIR)/$(TARGET)-development.iid
+docker-push: push
+
+push: $(DOCKER_DIR)/$(TARGET).iid
+	@docker image tag "$(TARGET):v1" "$(DOCKER_REMOTE)/$(TARGET):v1"
+	@docker image tag "$(TARGET):v2" "$(DOCKER_REMOTE)/$(TARGET):v2"
+	@docker image tag "$(TARGET):v3" "$(DOCKER_REMOTE)/$(TARGET):v3"
+	@docker image push "$(DOCKER_REMOTE)/$(TARGET):v1"
+	@docker image push "$(DOCKER_REMOTE)/$(TARGET):v2"
+	@docker image push "$(DOCKER_REMOTE)/$(TARGET):v3"
+
+v1:                  $(DOCKER_DIR)/$(TARGET)-v1.iid
+v2:                  $(DOCKER_DIR)/$(TARGET)-v2.iid
+v3:                  $(DOCKER_DIR)/$(TARGET)-v3.iid
 
 $(DOCKER_DIR)/$(TARGET)-%.iid: Dockerfile \
 	$(SRCS) 
 	@echo "### DOCK/DOCK  $(PROJECT).$(MODULE).$(COMPONENT) - $(DOCKER_VARIANT) - $*"
 	@$(MKDIR) "$(DOCKER_DIR)"
 	@if [ -f "$(DOCKER_DIR)/$(TARGET)-$*.iid" ] ; then i=$$( cat "$(DOCKER_DIR)/$(TARGET)-$*.iid" ); docker image rm -f $$i ; rm -f "$(DOCKER_DIR)/$(TARGET)-$*.iid"  2>/dev/null ; fi
-	@docker image build -f ./Dockerfile* \
+	@docker image build -f ./Dockerfile-$* \
 	  --build-arg GITHASH="$(_GITHASH)" \
 	  --build-arg COMPONENT=$(COMPONENT) \
 	  --build-arg MODULE=$(MODULE) \
 	  --build-arg PROJECT=$(PROJECT) \
 	  --build-arg CUSTOMER=$(CUSTOMER) \
-	  --build-arg VARIANT="$*" \
+	  --build-arg VARIANT="production" \
 	  --tag $(TARGET):$* \
 	  --label GITHASH="$(_GITHASH)" \
 	  --label COMPONENT=$(COMPONENT) \
 	  --label MODULE=$(MODULE) \
 	  --label PROJECT=$(PROJECT) \
 	  --label CUSTOMER=$(CUSTOMER) \
-	  --label VARIANT="$*" \
+	  --label VARIANT="production" \
 	  --iidfile "$(DOCKER_DIR)/$(TARGET)-$*.iid" \
 	  ../../..
 

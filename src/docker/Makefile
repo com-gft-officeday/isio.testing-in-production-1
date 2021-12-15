@@ -1,7 +1,7 @@
 SHELL := /bin/bash
 
 CUSTOMER ?= com.gft.officeday
-PROJECT ?= com.gft.officeday.isio.testing-in-production-1
+PROJECT ?= com.gft.officeday.istio.testing-in-production
 
 TIMESTAMP ?= $(shell date +%Y%m%d%H%M%S)
 GITHASH ?= $(shell (  git rev-parse HEAD  ) )

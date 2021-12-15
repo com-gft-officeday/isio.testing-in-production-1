@@ -5,15 +5,15 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: thermometer-v1
-  namespace: com-gft-officeday-isio-testing-in-production-1
+  namespace: com-gft-officeday-istio-testing-in-production
   labels:
-    PROJECT: com.gft.officeday.isio.testing-in-production-1
+    PROJECT: com.gft.officeday.istio.testing-in-production
     app: thermometer
     version: 1.0.0
 spec:
   containers:
     - name: thermometer
-      image: com.gft.officeday.isio.testing-in-production-1.application.ms-measure:v1
+      image: com.gft.officeday.istio.testing-in-production.application.ms-measure:v1
       imagePullPolicy: Never
       args: [ "--type", "thermometer", "--address", "01:00", "--name", "thermometer-1", "--randomsvc", "http://random/random" ]
       resources:

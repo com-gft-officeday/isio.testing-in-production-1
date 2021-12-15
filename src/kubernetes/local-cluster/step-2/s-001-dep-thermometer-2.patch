@@ -5,9 +5,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: thermometer-v2.0.0
-  namespace: com-gft-officeday-isio-testing-in-production-1
+  namespace: com-gft-officeday-istio-testing-in-production
   labels:
-    PROJECT: com.gft.officeday.isio.testing-in-production-1
+    PROJECT: com.gft.officeday.istio.testing-in-production
     app: thermometer
     version: "2.0.0"
 
@@ -17,20 +17,20 @@ spec:
 
   selector:
     matchLabels:
-      PROJECT: com.gft.officeday.isio.testing-in-production-1
+      PROJECT: com.gft.officeday.istio.testing-in-production
       app: thermometer
 
   template:
     metadata:
       name: thermometer
       labels:
-        PROJECT: com.gft.officeday.isio.testing-in-production-1
+        PROJECT: com.gft.officeday.istio.testing-in-production
         app: thermometer
         version: 2.0.0
     spec:
       containers:
         - name: thermometer
-          image: com.gft.officeday.isio.testing-in-production-1.application.ms-measure:v2
+          image: com.gft.officeday.istio.testing-in-production.application.ms-measure:v2
           imagePullPolicy: Never
           args: [ "--type", "thermometer", "--address", "01:00", "--name", "thermometer-2", "--randomsvc", "http://random/random" ]
           ports:

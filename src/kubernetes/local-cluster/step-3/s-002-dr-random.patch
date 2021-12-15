@@ -5,9 +5,9 @@ apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
   name: random-destination
-  namespace: com-gft-officeday-isio-testing-in-production-1
+  namespace: com-gft-officeday-istio-testing-in-production
   labels:
-    PROJECT: com.gft.officeday.isio.testing-in-production-1
+    PROJECT: com.gft.officeday.istio.testing-in-production
     app: random
 
 spec:

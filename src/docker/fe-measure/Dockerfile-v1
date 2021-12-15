@@ -1,4 +1,4 @@
-FROM com.gft.officeday.isio.testing-in-production-1.frontend.fe-measure:with-content
+FROM com.gft.officeday.istio.testing-in-production.frontend.fe-measure:with-content
 
 ARG GITHASH
 ARG TIMESTAMP

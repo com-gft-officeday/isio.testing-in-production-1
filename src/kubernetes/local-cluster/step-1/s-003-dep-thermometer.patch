@@ -4,29 +4,29 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: thermometer
-  namespace: com-gft-officeday-isio-testing-in-production-1
+  namespace: com-gft-officeday-istio-testing-in-production
   labels:
-    PROJECT: com.gft.officeday.isio.testing-in-production-1
-    app.kubernetes.io/part-of: com.gft.officeday.isio.testing-in-production-1.step-2
+    PROJECT: com.gft.officeday.istio.testing-in-production
+    app.kubernetes.io/part-of: com.gft.officeday.istio.testing-in-production.step-2
     app.kubernetes.io/component: thermometer
 spec:
   replicas: 1
   selector:
     matchLabels:
-      PROJECT: com.gft.officeday.isio.testing-in-production-1
+      PROJECT: com.gft.officeday.istio.testing-in-production
       app: thermometer
   template:
     metadata:
       name: thermometer-v1
-      namespace: com-gft-officeday-isio-testing-in-production-1
+      namespace: com-gft-officeday-istio-testing-in-production
       labels:
-        PROJECT: com.gft.officeday.isio.testing-in-production-1
+        PROJECT: com.gft.officeday.istio.testing-in-production
         app: thermometer
         version: 1.0.0
     spec:
       containers:
         - name: thermometer
-          image: com.gft.officeday.isio.testing-in-production-1.application.ms-measure:v1
+          image: com.gft.officeday.istio.testing-in-production.application.ms-measure:v1
           imagePullPolicy: Never
           args: [ "--type", "thermometer", "--address", "01:00", "--name", "thermometer-1", "--randomsvc", "http://random/random" ]
           resources:

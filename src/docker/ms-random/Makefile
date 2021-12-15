@@ -1,7 +1,7 @@
 SHELL := /bin/bash
 
 CUSTOMER ?= com.gft.officeday
-PROJECT ?= com.gft.officeday.isio.testing-in-production-1
+PROJECT ?= com.gft.officeday.istio.testing-in-production
 MODULE ?= backend
 COMPONENT ?= ms-random
 TARGET ?= $(PROJECT).$(MODULE).$(COMPONENT)

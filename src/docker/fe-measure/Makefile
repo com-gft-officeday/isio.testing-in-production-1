@@ -1,7 +1,7 @@
 SHELL := /bin/bash
 
 CUSTOMER ?= com.gft.officeday
-PROJECT ?= com.gft.officeday.isio.testing-in-production-1
+PROJECT ?= com.gft.officeday.istio.testing-in-production
 MODULE ?= frontend
 COMPONENT ?= fe-measure
 TARGET ?= $(PROJECT).$(MODULE).$(COMPONENT)

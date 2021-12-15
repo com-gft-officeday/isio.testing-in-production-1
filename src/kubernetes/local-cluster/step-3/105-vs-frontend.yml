@@ -15,7 +15,7 @@ spec:
 
   hosts:
 
-    - "mysite-uat.localgft.com"
+    - "pilot.localgft.com"
 
   gateways:
 
@@ -60,7 +60,7 @@ spec:
 
   hosts:
 
-    - "mysite-prod.localgft.com"
+    - "prod.localgft.com"
 
   gateways:
 

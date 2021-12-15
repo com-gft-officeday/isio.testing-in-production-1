@@ -15,7 +15,7 @@ spec:
 
   hosts:
 
-    - "mysite-dev.localgft.com"
+    - "api.localgft.com"
 
   gateways:
 
@@ -34,7 +34,7 @@ spec:
 
         headers:
           origin:
-            regex: .*mysite-uat.localgft.com.*
+            regex: .*pilot.localgft.com.*
 
       - uri:
           prefix: /thermometer/
@@ -71,7 +71,7 @@ spec:
 
         headers:
           origin:
-            regex: .*mysite-prod.localgft.com.*
+            regex: .*prod.localgft.com.*
 
       - uri:
           prefix: /thermometer/
@@ -129,7 +129,7 @@ spec:
 
       - headers:
           origin:
-            regex: .*mysite-uat.localgft.com.*
+            regex: .*pilot.localgft.com.*
 
       - headers:
           x-environment: 
@@ -156,7 +156,7 @@ spec:
 
       - headers:
           origin:
-            regex: .*mysite-prod.localgft.com.*
+            regex: .*prod.localgft.com.*
 
       - headers:
           x-environment: 
